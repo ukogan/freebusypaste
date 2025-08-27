@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy - Main Window Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .app-window {
+            width: 720px;
+            height: 480px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .title-bar {
+            height: 32px;
+            background: #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid #d0d0d0;
+        }
+        
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .window-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .close { background: #ff5f57; }
+        .minimize { background: #ffbd2e; }
+        .maximize { background: #28ca42; }
+        
+        .app-header {
+            padding: 20px 24px 16px;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .app-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .settings-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .settings-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .generation-section {
+            text-align: center;
+        }
+        
+        .date-range {
+            margin-bottom: 16px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .generate-btn {
+            width: 280px;
+            height: 48px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .generate-btn:hover {
+            background: #0052a3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,102,204,0.3);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+            background: #003d7a;
+        }
+        
+        .generate-btn.loading {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .generate-btn.success {
+            background: #28a745;
+        }
+        
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .results-section {
+            flex: 1;
+            display: none;
+        }
+        
+        .results-section.show {
+            display: block;
+        }
+        
+        .availability-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .availability-table th,
+        .availability-table td {
+            padding: 12px 16px;
+            text-align: center;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .availability-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .book-link {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+        
+        .book-link:hover {
+            background: #0052a3;
+        }
+        
+        .unavailable {
+            color: #999;
+            font-size: 18px;
+        }
+        
+        .copy-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .copy-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #0066cc;
+            color: #0066cc;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .copy-btn:hover {
+            background: #e6f3ff;
+        }
+        
+        .copy-btn.success {
+            border-color: #28a745;
+            color: #28a745;
+            background: #f8fff9;
+        }
+        
+        .success-message {
+            text-align: center;
+            color: #28a745;
+            font-size: 14px;
+            font-weight: 500;
+            background: #f8fff9;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #d4edda;
+        }
+        
+        .footer {
+            padding: 16px 24px;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .refresh-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .refresh-btn:hover {
+            background: #e9ecef;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-window">
+        <div class="title-bar">
+            <span>FreeBusy</span>
+            <div class="window-controls">
+                <div class="window-control close"></div>
+                <div class="window-control minimize"></div>
+                <div class="window-control maximize"></div>
+            </div>
+        </div>
+        
+        <div class="app-header">
+            <div class="app-title">
+                
+                <button class="settings-btn" onclick="alert('Settings panel would open')">⚙️</button>
+            </div>
+            <div class="status-bar">
+                <span>Next 3 business days: Aug 27-29, 2025</span>
+                <span>Connected as: ukogan@rzero.com</span>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="generation-section">
+                <div class="date-range">
+                    
+                </div>
+                <button class="generate-btn" id="generateBtn" onclick="generateAvailability()">
+                    🔍 Find my availability
+                </button>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <div class="copy-actions">
+                    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">
+                        📋 Copy to clipboard
+                    </button>
+                    <button class="copy-btn" onclick="alert('Save functionality')">
+                        💾 Save to file
+                    </button>
+                </div>
+                
+                <table class="availability-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th><strong>Wed 8/27</strong></th>
+                            <th><strong>Thu 8/28</strong></th>
+                            <th><strong>Fri 8/29</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>9:00</strong></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>9:30</strong></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                            <td><span class="unavailable">—</span></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>10:00</strong></td>
+                            <td><span class="unavailable">—</span></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>10:30</strong></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                            <td><span class="unavailable">—</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>11:00</strong></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                            <td><a href="#" class="book-link">BOOK</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="success-message" id="successMessage" style="display: none;">
+                    ✅ Availability copied! Paste away.
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <span>Last updated: 2 minutes ago</span>
+            <button class="refresh-btn" onclick="alert('Refresh calendar data')">🔄 Refresh</button>
+        </div>
+    </div>
+
+    <script>
+        function generateAvailability() {
+            const btn = document.getElementById('generateBtn');
+            const resultsSection = document.getElementById('resultsSection');
+            
+            // Loading state
+            btn.innerHTML = '<div class="spinner"></div> Checking calendar...';
+            btn.classList.add('loading');
+            btn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Success state
+                btn.innerHTML = '✅ Found!';
+                btn.classList.remove('loading');
+                btn.classList.add('success');
+                
+                // Show results
+                resultsSection.classList.add('show');
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    btn.innerHTML = '🔍 Find my availability';
+                    btn.classList.remove('success');
+                    btn.disabled = false;
+                }, 2000);
+            }, 2000);
+        }
+        
+        function copyToClipboard() {
+            const btn = document.getElementById('copyBtn');
+            const successMsg = document.getElementById('successMessage');
+            
+            // Simulate clipboard copy
+            btn.innerHTML = '✅ Copied!';
+            btn.classList.add('success');
+            successMsg.style.display = 'block';
+            
+            // Reset after 3 seconds
+            setTimeout(() => {
+                btn.innerHTML = '📋 Copy to clipboard';
+                btn.classList.remove('success');
+                successMsg.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

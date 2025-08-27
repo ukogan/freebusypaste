@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy - First Run Onboarding Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .onboarding-container {
+            width: 480px;
+            min-height: 600px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #dee2e6;
+            margin: 0 6px;
+            transition: background 0.3s ease;
+        }
+        
+        .step-dot.active {
+            background: #0066cc;
+        }
+        
+        .step-dot.completed {
+            background: #28a745;
+        }
+        
+        .step-content {
+            flex: 1;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .step-panel {
+            display: none;
+        }
+        
+        .step-panel.active {
+            display: block;
+        }
+        
+        .step-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+        
+        .step-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        
+        .step-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        
+        .feature-list {
+            text-align: left;
+            margin-bottom: 32px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            background: #e6f3ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #0066cc;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        .auth-info {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        
+        .auth-info-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .auth-info-text {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .success-animation {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            animation: successPulse 1s ease-out;
+        }
+        
+        @keyframes successPulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .step-actions {
+            padding: 24px 32px;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn-text {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: color 0.2s ease;
+        }
+        
+        .btn-text:hover {
+            color: #333;
+            background: #e9ecef;
+        }
+        
+        .btn-primary {
+            padding: 12px 32px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #0052a3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,102,204,0.3);
+        }
+        
+        .btn-secondary {
+            padding: 12px 24px;
+            background: white;
+            color: #0066cc;
+            border: 2px solid #0066cc;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #e6f3ff;
+        }
+        
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .preview-table {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        
+        .preview-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .preview-content {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.4;
+            font-family: monospace;
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="onboarding-container">
+        <div class="step-indicator">
+            <div class="step-dot active" id="dot-1"></div>
+            <div class="step-dot" id="dot-2"></div>
+            <div class="step-dot" id="dot-3"></div>
+            <div class="step-dot" id="dot-4"></div>
+        </div>
+        
+        <div class="step-content">
+            <!-- Step 1: Welcome -->
+            <div class="step-panel active" id="step-1">
+                <div class="step-icon">📅</div>
+                <h1 class="step-title">Welcome to FreeBusy</h1>
+                <p class="step-subtitle">Share availability instantly</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        Connect to Google Calendar securely
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        Generate availability instantly
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        Copy to clipboard in one click
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        Share professional booking links
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2: Authentication -->
+            <div class="step-panel" id="step-2">
+                <div class="step-icon">🔐</div>
+                <h2 class="step-title">Connect your Google Calendar</h2>
+                <p class="step-subtitle">We need read-only access to check when you're busy</p>
+                
+                <div class="auth-info">
+                    <div class="auth-info-title">🛡️ Your Privacy is Protected</div>
+                    <div class="auth-info-text">
+                        FreeBusy only reads when you're busy, never meeting details, attendees, or content. Your calendar data stays private and secure.
+                    </div>
+                </div>
+                
+                <div class="auth-info">
+                    <div class="auth-info-title">🔒 Read-Only Access</div>
+                    <div class="auth-info-text">
+                        We can't modify, delete, or create calendar events. We only check availability 
+                        during your specified business hours.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Configuration -->
+            <div class="step-panel" id="step-3">
+                <div class="step-icon">⚙️</div>
+                <h2 class="step-title">Meeting details</h2>
+                <p class="step-subtitle">These details will appear in your booking links</p>
+                
+                <div class="form-group">
+                    <label class="form-label" for="user-email">Email Address</label>
+                    <input type="email" id="user-email" class="form-input" value="ukogan@rzero.com" placeholder="your@company.com">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="meeting-title">Meeting Title</label>
+                    <input type="text" id="meeting-title" class="form-input" value="Meeting with Uri" placeholder="Meeting with [Your Name]">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="zoom-link">Zoom/Meeting Link</label>
+                    <input type="url" id="zoom-link" class="form-input" value="https://rzero.zoom.us/j/5152335657" placeholder="https://zoom.us/j/...">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label class="form-label" for="start-hour">Available From</label>
+                        <select id="start-hour" class="form-select">
+                            <option value="8">8:00 AM</option>
+                            <option value="9" selected>9:00 AM</option>
+                            <option value="10">10:00 AM</option>
+                        </select>
+                    </div>
+                    <div class="form-col">
+                        <label class="form-label" for="end-hour">Available Until</label>
+                        <select id="end-hour" class="form-select">
+                            <option value="17">5:00 PM</option>
+                            <option value="18" selected>6:00 PM</option>
+                            <option value="19">7:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="preview-table">
+                    <div class="preview-title">Preview</div>
+                    <div class="preview-content">
+                        Meeting: Meeting with Uri<br>
+                        Zoom: https://rzero.zoom.us/j/5152335657<br>
+                        Attendee: ukogan@rzero.com
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 4: Complete -->
+            <div class="step-panel" id="step-4">
+                <div class="success-animation">✓</div>
+                <h2 class="step-title">You're All Set!</h2>
+                <p class="step-subtitle">FreeBusy is ready to streamline your scheduling</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">💡</div>
+                        Click "Generate Availability" to create your first table
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💡</div>
+                        Results are automatically copied to your clipboard
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💡</div>
+                        Use the system tray for quick access anytime
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💡</div>
+                        Adjust settings anytime by clicking the gear icon
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="step-actions">
+            <button class="btn-text" id="back-btn" onclick="previousStep()" style="display: none;">← Back</button>
+            <div id="action-buttons">
+                <button class="btn-primary" id="primary-btn" onclick="nextStep()">Get Started</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+        
+        function updateStepIndicator() {
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                dot.className = 'step-dot';
+                if (i < currentStep) {
+                    dot.className += ' completed';
+                } else if (i === currentStep) {
+                    dot.className += ' active';
+                }
+            }
+        }
+        
+        function showStep(step) {
+            // Hide all panels
+            document.querySelectorAll('.step-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Show current panel
+            document.getElementById(`step-${step}`).classList.add('active');
+            
+            // Update back button
+            const backBtn = document.getElementById('back-btn');
+            backBtn.style.display = step > 1 ? 'block' : 'none';
+            
+            // Update primary button
+            const primaryBtn = document.getElementById('primary-btn');
+            const actionButtons = document.getElementById('action-buttons');
+            
+            switch(step) {
+                case 1:
+                    primaryBtn.textContent = 'Get Started';
+                    primaryBtn.onclick = nextStep;
+                    break;
+                case 2:
+                    actionButtons.innerHTML = '<button class="btn-primary" id="primary-btn" onclick="authenticateGoogle()">Connect Google Calendar</button>';
+                    break;
+                case 3:
+                    actionButtons.innerHTML = `
+                        <button class="btn-secondary" onclick="nextStep()">Skip for Now</button>
+                        <button class="btn-primary" onclick="nextStep()" style="margin-left: 12px;">Save & Continue</button>
+                    `;
+                    break;
+                case 4:
+                    actionButtons.innerHTML = `
+                        <button class="btn-secondary" onclick="alert('Open settings')">More settings</button>
+                        <button class="btn-primary" onclick="completeOnboarding()" style="margin-left: 12px;">Find my availability</button>
+                    `;
+                    break;
+            }
+        }
+        
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+                updateStepIndicator();
+            }
+        }
+        
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+                updateStepIndicator();
+            }
+        }
+        
+        function authenticateGoogle() {
+            const btn = document.getElementById('primary-btn');
+            btn.innerHTML = '<div class="loading-spinner"></div>Connecting...';
+            btn.disabled = true;
+            
+            // Simulate OAuth flow
+            setTimeout(() => {
+                btn.innerHTML = '✓ Connected Successfully';
+                btn.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    nextStep();
+                }, 1500);
+            }, 3000);
+        }
+        
+        function completeOnboarding() {
+            alert('Onboarding complete! Opening main application...');
+        }
+        
+        // Initialize
+        updateStepIndicator();
+    </script>
+</body>
+</html>

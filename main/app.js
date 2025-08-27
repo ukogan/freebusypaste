@@ -1,0 +1,278 @@
+const { app, BrowserWindow, Menu, Tray, ipcMain, shell } = require('electron');
+const path = require('path');
+const { default: Store } = require('electron-store');
+
+// Import managers
+const AuthManager = require('./auth/oauth-manager-v2');
+const DemoAuthManager = require('./auth/demo-auth-manager');
+const SettingsManager = require('./storage/settings-manager');
+const MenuBarManager = require('./system/menubar-manager');
+const AvailabilityGenerator = require('./calendar/availability-generator');
+const DemoAvailabilityGenerator = require('./calendar/demo-availability-generator');
+
+class FreeBusyApp {
+  constructor() {
+    this.mainWindow = null;
+    this.settingsWindow = null;
+    this.tray = null;
+    this.store = new Store({ 
+      name: 'freebusy-settings',
+      projectName: 'freebusy-desktop'
+    });
+    
+    // Check if demo mode is enabled
+    this.isDemoMode = process.env.DEMO_MODE === 'true';
+    
+    // Initialize managers
+    this.authManager = this.isDemoMode ? new DemoAuthManager() : new AuthManager();
+    this.settingsManager = new SettingsManager(this.store);
+    this.menuBarManager = new MenuBarManager(this);
+    this.availabilityGenerator = this.isDemoMode ? 
+      new DemoAvailabilityGenerator(this.authManager) : 
+      new AvailabilityGenerator(this.authManager);
+    
+    if (this.isDemoMode) {
+      console.log('🎭 Running in DEMO MODE - No Google credentials required');
+    }
+    
+    this.setupApp();
+  }
+  
+  setupApp() {
+    // Handle app ready
+    app.whenReady().then(() => {
+      console.log('App ready, initializing...');
+      this.createMainWindow();
+      this.setupMenuBar();
+      this.setupIPC();
+      console.log('App initialization complete');
+      
+      app.on('activate', () => {
+        console.log('App activated');
+        if (BrowserWindow.getAllWindows().length === 0) {
+          this.createMainWindow();
+        }
+      });
+    }).catch(error => {
+      console.error('App initialization failed:', error);
+    });
+    
+    // Handle all windows closed
+    app.on('window-all-closed', () => {
+      // Don't quit on macOS when all windows are closed
+      // App should continue running in menu bar
+      console.log('All windows closed, but keeping app running in menu bar');
+    });
+    
+    // Handle app quit
+    app.on('before-quit', () => {
+      this.cleanup();
+    });
+  }
+  
+  createMainWindow() {
+    // Don't create duplicate windows
+    if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+      this.mainWindow.focus();
+      return;
+    }
+    
+    try {
+      console.log('Creating main window...');
+      this.mainWindow = new BrowserWindow({
+        width: 720,
+        height: 480,
+        resizable: true,
+        titleBarStyle: 'default',
+        show: true, // Show immediately
+        alwaysOnTop: true, // Make it stay on top temporarily
+        webPreferences: {
+          nodeIntegration: false,
+          contextIsolation: true,
+          preload: path.join(__dirname, '../renderer/preload.js')
+        }
+      });
+      
+      // Load main window
+      this.mainWindow.loadFile(path.join(__dirname, '../renderer/views/main-window.html'))
+        .then(() => {
+          console.log('Main window loaded successfully');
+          this.mainWindow.show();
+          this.mainWindow.focus();
+          // Remove always on top after 2 seconds
+          setTimeout(() => {
+            this.mainWindow.setAlwaysOnTop(false);
+          }, 2000);
+        })
+        .catch(error => {
+          console.error('Failed to load main window:', error);
+        });
+      
+      // Handle window closed
+      this.mainWindow.on('closed', () => {
+        console.log('Main window closed');
+        this.mainWindow = null;
+      });
+      
+      // Development: Open DevTools
+      if (process.env.NODE_ENV === 'development') {
+        this.mainWindow.webContents.openDevTools();
+      }
+      
+    } catch (error) {
+      console.error('Failed to create main window:', error);
+    }
+  }
+  
+  setupMenuBar() {
+    this.menuBarManager.create();
+  }
+  
+  setupIPC() {
+    // Authentication handlers
+    ipcMain.handle('auth:check-status', async () => {
+      return this.authManager.isAuthenticated();
+    });
+    
+    ipcMain.handle('app:is-demo-mode', async () => {
+      return this.isDemoMode;
+    });
+    
+    ipcMain.handle('auth:login', async () => {
+      try {
+        console.log('Authentication request received from renderer');
+        const result = await this.authManager.authenticate();
+        console.log('Authentication completed successfully');
+        return result;
+      } catch (error) {
+        console.error('Authentication failed in main process:', error);
+        console.error('Stack trace:', error.stack);
+        return { success: false, error: error.message };
+      }
+    });
+    
+    ipcMain.handle('auth:logout', async () => {
+      return this.authManager.logout();
+    });
+    
+    // Settings handlers
+    ipcMain.handle('settings:get', async () => {
+      return this.settingsManager.getSettings();
+    });
+    
+    ipcMain.handle('settings:save', async (event, settings) => {
+      return this.settingsManager.saveSettings(settings);
+    });
+    
+    // Availability generation handlers
+    ipcMain.handle('availability:generate', async (event, options) => {
+      try {
+        const availability = await this.availabilityGenerator.generate(options);
+        return { success: true, data: availability };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
+    });
+    
+    // Window management handlers
+    ipcMain.handle('window:show', () => {
+      if (this.mainWindow) {
+        this.mainWindow.show();
+        this.mainWindow.focus();
+      } else {
+        this.createMainWindow();
+      }
+    });
+    
+    ipcMain.handle('window:hide', () => {
+      if (this.mainWindow) {
+        this.mainWindow.hide();
+      }
+    });
+    
+    ipcMain.handle('window:minimize', () => {
+      if (this.mainWindow) {
+        this.mainWindow.minimize();
+      }
+    });
+    
+    // External link handler
+    ipcMain.handle('open-external', (event, url) => {
+      shell.openExternal(url);
+    });
+    
+    // Clipboard handlers
+    ipcMain.handle('clipboard:write-text', (event, text) => {
+      const { clipboard } = require('electron');
+      clipboard.writeText(text);
+    });
+    
+    ipcMain.handle('clipboard:read-text', () => {
+      const { clipboard } = require('electron');
+      return clipboard.readText();
+    });
+  }
+  
+  showMainWindow() {
+    if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+      this.mainWindow.show();
+      this.mainWindow.focus();
+    } else {
+      this.createMainWindow();
+    }
+  }
+  
+  async generateAvailability(options = {}) {
+    try {
+      const availability = await this.availabilityGenerator.generate(options);
+      
+      // Notify main window if open
+      if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+        this.mainWindow.webContents.send('availability-generated', availability);
+      }
+      
+      return availability;
+    } catch (error) {
+      console.error('Failed to generate availability:', error);
+      throw error;
+    }
+  }
+  
+  cleanup() {
+    // Clean up resources
+    if (this.tray) {
+      this.tray.destroy();
+      this.tray = null;
+    }
+    
+    // Close any open windows
+    if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+      this.mainWindow.close();
+    }
+    
+    if (this.settingsWindow && !this.settingsWindow.isDestroyed()) {
+      this.settingsWindow.close();
+    }
+  }
+}
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  console.error('Stack:', error.stack);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+// Create app instance
+try {
+  const freeBusyApp = new FreeBusyApp();
+} catch (error) {
+  console.error('Failed to create FreeBusy app:', error);
+  console.error('Stack:', error.stack);
+}
+
+// Export for testing
+module.exports = FreeBusyApp;

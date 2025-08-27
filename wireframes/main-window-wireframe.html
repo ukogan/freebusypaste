@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Main Window - Editable Wireframe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        
+        .wireframe-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .text-editor {
+            width: 400px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .editor-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 8px;
+        }
+        
+        .text-group {
+            margin-bottom: 20px;
+        }
+        
+        .text-group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .text-field {
+            margin-bottom: 12px;
+        }
+        
+        .text-label {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            transition: border-color 0.2s;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+        
+        .text-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+        
+        .app-window {
+            width: 720px;
+            height: 480px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid #ccc;
+        }
+        
+        .title-bar {
+            height: 32px;
+            background: #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid #d0d0d0;
+        }
+        
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .window-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .close { background: #ff5f57; }
+        .minimize { background: #ffbd2e; }
+        .maximize { background: #28ca42; }
+        
+        .app-header {
+            padding: 20px 24px 16px;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .app-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .settings-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .generation-section {
+            text-align: center;
+        }
+        
+        .date-range {
+            margin-bottom: 16px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .generate-btn {
+            width: 280px;
+            height: 48px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .results-section {
+            flex: 1;
+            display: none;
+        }
+        
+        .results-section.show {
+            display: block;
+        }
+        
+        .copy-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .copy-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #0066cc;
+            color: #0066cc;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .availability-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .availability-table th,
+        .availability-table td {
+            padding: 12px 16px;
+            text-align: center;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .availability-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .book-link {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .unavailable {
+            color: #999;
+            font-size: 18px;
+        }
+        
+        .success-message {
+            text-align: center;
+            color: #28a745;
+            font-size: 14px;
+            font-weight: 500;
+            background: #f8fff9;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #d4edda;
+        }
+        
+        .footer {
+            padding: 16px 24px;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .refresh-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .reset-btn {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        
+        .instructions {
+            background: #e6f3ff;
+            border: 1px solid #0066cc;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="wireframe-container">
+        <div class="text-editor">
+            <h2 class="editor-title">✏️ Edit UI Text</h2>
+            
+            <div class="instructions">
+                Edit any text in the fields below and watch the mockup update in real-time. This lets you refine copy and see how it looks in context.
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Window Title</div>
+                <div class="text-field">
+                    <label class="text-label">Application Title</label>
+                    <input type="text" class="text-input" id="window-title" value="FreeBusy Calendar">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Main Header</div>
+                <div class="text-field">
+                    <label class="text-label">Page Title</label>
+                    <input type="text" class="text-input" id="app-title" value="📅 Generate Your Meeting Availability">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Date Range Text</label>
+                    <input type="text" class="text-input" id="date-range" value="Next 3 business days: Aug 27-29, 2025">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">User Status</label>
+                    <input type="text" class="text-input" id="user-status" value="Connected as: ukogan@rzero.com">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Generation Section</div>
+                <div class="text-field">
+                    <label class="text-label">Description Text</label>
+                    <input type="text" class="text-input" id="generation-desc" value="Checking availability for next 3 business days">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Generate Button</label>
+                    <input type="text" class="text-input" id="generate-btn" value="🔍 Generate Availability">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Results Section</div>
+                <div class="text-field">
+                    <label class="text-label">Copy Button</label>
+                    <input type="text" class="text-input" id="copy-btn" value="📋 Copy to Clipboard">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Save Button</label>
+                    <input type="text" class="text-input" id="save-btn" value="💾 Save to File">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Success Message</label>
+                    <textarea class="text-textarea" id="success-msg">✅ Availability copied to clipboard! Ready to paste into your email.</textarea>
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Footer</div>
+                <div class="text-field">
+                    <label class="text-label">Last Updated</label>
+                    <input type="text" class="text-input" id="last-updated" value="Last updated: 2 minutes ago">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Refresh Button</label>
+                    <input type="text" class="text-input" id="refresh-btn" value="🔄 Refresh">
+                </div>
+            </div>
+            
+            <button class="reset-btn" onclick="resetToDefaults()">Reset to Defaults</button>
+            
+            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e5e5;">
+                <div style="margin-bottom: 12px;">
+                    <button class="reset-btn" style="background: #17a2b8;" onclick="exportSettings()">💾 Export My Changes</button>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importSettings(event)">
+                    <button class="reset-btn" style="background: #6c757d;" onclick="document.getElementById('import-file').click()">📂 Import Changes</button>
+                </div>
+                <div style="font-size: 11px; color: #666; line-height: 1.3;">
+                    Export creates a JSON file you can share. Import loads previously saved changes.
+                </div>
+            </div>
+        </div>
+        
+        <div class="app-window">
+            <div class="title-bar">
+                <span id="title-display">FreeBusy Calendar</span>
+                <div class="window-controls">
+                    <div class="window-control close"></div>
+                    <div class="window-control minimize"></div>
+                    <div class="window-control maximize"></div>
+                </div>
+            </div>
+            
+            <div class="app-header">
+                <div class="app-title">
+                    <span id="app-title-display">📅 Generate Your Meeting Availability</span>
+                    <button class="settings-btn">⚙️</button>
+                </div>
+                <div class="status-bar">
+                    <span id="date-range-display">Next 3 business days: Aug 27-29, 2025</span>
+                    <span id="user-status-display">Connected as: ukogan@rzero.com</span>
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <div class="generation-section">
+                    <div class="date-range" id="generation-desc-display">
+                        Checking availability for next 3 business days
+                    </div>
+                    <button class="generate-btn" id="generate-btn-display" onclick="showResults()">
+                        🔍 Generate Availability
+                    </button>
+                </div>
+                
+                <div class="results-section" id="resultsSection">
+                    <div class="copy-actions">
+                        <button class="copy-btn" id="copy-btn-display">
+                            📋 Copy to Clipboard
+                        </button>
+                        <button class="copy-btn" id="save-btn-display">
+                            💾 Save to File
+                        </button>
+                    </div>
+                    
+                    <table class="availability-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th><strong>Wed 8/27</strong></th>
+                                <th><strong>Thu 8/28</strong></th>
+                                <th><strong>Fri 8/29</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>9:00</strong></td>
+                                <td><a href="#" class="book-link">BOOK</a></td>
+                                <td><a href="#" class="book-link">BOOK</a></td>
+                                <td><a href="#" class="book-link">BOOK</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>9:30</strong></td>
+                                <td><a href="#" class="book-link">BOOK</a></td>
+                                <td><span class="unavailable">—</span></td>
+                                <td><a href="#" class="book-link">BOOK</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>10:00</strong></td>
+                                <td><span class="unavailable">—</span></td>
+                                <td><a href="#" class="book-link">BOOK</a></td>
+                                <td><a href="#" class="book-link">BOOK</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="success-message" id="success-msg-display">
+                        ✅ Availability copied to clipboard! Ready to paste into your email.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <span id="last-updated-display">Last updated: 2 minutes ago</span>
+                <button class="refresh-btn" id="refresh-btn-display">🔄 Refresh</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Real-time text updates
+        function setupTextEditing() {
+            const textInputs = {
+                'window-title': 'title-display',
+                'app-title': 'app-title-display',
+                'date-range': 'date-range-display',
+                'user-status': 'user-status-display',
+                'generation-desc': 'generation-desc-display',
+                'generate-btn': 'generate-btn-display',
+                'copy-btn': 'copy-btn-display',
+                'save-btn': 'save-btn-display',
+                'success-msg': 'success-msg-display',
+                'last-updated': 'last-updated-display',
+                'refresh-btn': 'refresh-btn-display'
+            };
+            
+            Object.keys(textInputs).forEach(inputId => {
+                const input = document.getElementById(inputId);
+                const display = document.getElementById(textInputs[inputId]);
+                
+                input.addEventListener('input', () => {
+                    display.textContent = input.value;
+                });
+            });
+        }
+        
+        function showResults() {
+            document.getElementById('resultsSection').classList.add('show');
+        }
+        
+        function resetToDefaults() {
+            const defaults = {
+                'window-title': 'FreeBusy Calendar',
+                'app-title': '📅 Generate Your Meeting Availability',
+                'date-range': 'Next 3 business days: Aug 27-29, 2025',
+                'user-status': 'Connected as: ukogan@rzero.com',
+                'generation-desc': 'Checking availability for next 3 business days',
+                'generate-btn': '🔍 Generate Availability',
+                'copy-btn': '📋 Copy to Clipboard',
+                'save-btn': '💾 Save to File',
+                'success-msg': '✅ Availability copied to clipboard! Ready to paste into your email.',
+                'last-updated': 'Last updated: 2 minutes ago',
+                'refresh-btn': '🔄 Refresh'
+            };
+            
+            Object.keys(defaults).forEach(id => {
+                const input = document.getElementById(id);
+                const display = document.getElementById(id.replace(/-/g, '-') + (id.includes('msg') ? '-display' : '-display'));
+                
+                input.value = defaults[id];
+                if (display) {
+                    display.textContent = defaults[id];
+                }
+            });
+        }
+        
+        function exportSettings() {
+            const settings = {
+                exportDate: new Date().toISOString(),
+                wireframeType: 'main-window',
+                version: '1.0',
+                textContent: {}
+            };
+            
+            // Collect all text input values
+            const textInputs = [
+                'window-title', 'app-title', 'date-range', 'user-status',
+                'generation-desc', 'generate-btn', 'copy-btn', 'save-btn',
+                'success-msg', 'last-updated', 'refresh-btn'
+            ];
+            
+            textInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    settings.textContent[id] = input.value;
+                }
+            });
+            
+            // Create and download JSON file
+            const dataStr = JSON.stringify(settings, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `freebusy-main-window-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert('✅ Your changes have been exported! Share the downloaded JSON file.');
+        }
+        
+        function importSettings(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const settings = JSON.parse(e.target.result);
+                    
+                    if (settings.wireframeType !== 'main-window') {
+                        alert('❌ This file is not for the main window wireframe.');
+                        return;
+                    }
+                    
+                    // Apply imported text content
+                    Object.keys(settings.textContent).forEach(id => {
+                        const input = document.getElementById(id);
+                        const display = document.getElementById(id.replace(/-/g, '-') + '-display');
+                        
+                        if (input) {
+                            input.value = settings.textContent[id];
+                            if (display) {
+                                display.textContent = settings.textContent[id];
+                            }
+                        }
+                    });
+                    
+                    alert(`✅ Changes imported from ${new Date(settings.exportDate).toLocaleDateString()}`);
+                } catch (error) {
+                    alert('❌ Error reading file. Please check the file format.');
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+        
+        // Initialize
+        setupTextEditing();
+    </script>
+</body>
+</html>

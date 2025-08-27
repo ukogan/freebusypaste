@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Build outputs
+dist/
+build/
+coverage/
+*.tgz
+*.tar.gz
+
+# Runtime
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Credentials and secrets
+credentials.json
+token.json
+secrets.encrypted
+
+# Electron
+electron-builder-output/
+out/
+
+# Test results
+test-results/
+playwright-html-report/
+*.lcov
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Generated files
+meeting_availability_*.md
+
+# Python cache (from legacy CLI)
+__pycache__/
+*.pyc
+*.pyo

@@ -1,0 +1,42 @@
+{
+  "name": "freebusy-desktop",
+  "version": "0.1.0",
+  "description": "macOS desktop app for instant calendar availability sharing",
+  "main": "main/app.js",
+  "scripts": {
+    "dev": "electron-reload . && electron main/app.js",
+    "start": "electron main/app.js",
+    "demo": "DEMO_MODE=true electron main/app.js",
+    "test": "jest --config jest.config.js",
+    "test:unit": "jest --config jest.config.js",
+    "test:e2e": "playwright test --config playwright.config.js",
+    "test:all": "npm run test:unit && npm run test:e2e",
+    "test:watch": "jest --config jest.config.js --watch",
+    "lint": "eslint main/ renderer/",
+    "lint:fix": "eslint main/ renderer/ --fix",
+    "build": "electron-builder"
+  },
+  "keywords": [
+    "calendar",
+    "scheduling",
+    "availability",
+    "electron",
+    "macos"
+  ],
+  "author": "FreeBusy Team",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "electron": "^37.3.1",
+    "electron-store": "^10.1.0",
+    "googleapis": "^158.0.0",
+    "keytar": "^7.9.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "electron-builder": "^26.0.12",
+    "electron-reload": "^2.0.0-alpha.1",
+    "eslint": "^9.34.0",
+    "jest": "^30.1.0"
+  }
+}

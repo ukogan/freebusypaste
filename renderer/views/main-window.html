@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy</title>
+    <link rel="stylesheet" href="../styles/main-window.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">FreeBusy</h1>
+                <button class="settings-btn" id="settingsBtn" title="Settings">⚙️</button>
+            </div>
+            <div class="status-bar">
+                <span id="dateRange">Next 3 business days</span>
+                <span id="authStatus">Not connected</span>
+                <span id="demoMode" style="display: none; color: #ff6b35; font-weight: 600;">🎭 DEMO MODE</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Authentication Section (shown when not authenticated) -->
+            <div class="auth-section" id="authSection">
+                <div class="auth-content">
+                    <div class="auth-icon">🔐</div>
+                    <h2>Connect to Google Calendar</h2>
+                    <p>Sign in with Google to access your calendar availability</p>
+                    <button class="btn-primary" id="loginBtn">
+                        Connect Google Calendar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Generation Section (shown when authenticated) -->
+            <div class="generation-section" id="generationSection" style="display: none;">
+                <div class="generation-content">
+                    <button class="generate-btn" id="generateBtn">
+                        🔍 Find my availability
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="copy-actions">
+                    <button class="copy-btn" id="copyBtn">
+                        📋 Copy to clipboard
+                    </button>
+                    <button class="copy-btn" id="saveBtn">
+                        💾 Save to file
+                    </button>
+                </div>
+
+                <div class="availability-display" id="availabilityDisplay">
+                    <!-- Availability table will be inserted here -->
+                </div>
+
+                <div class="success-message" id="successMessage" style="display: none;">
+                    ✅ Availability copied! Paste away.
+                </div>
+            </div>
+
+            <!-- Error Section -->
+            <div class="error-section" id="errorSection" style="display: none;">
+                <div class="error-content">
+                    <div class="error-icon">⚠️</div>
+                    <h3 id="errorTitle">Something went wrong</h3>
+                    <p id="errorMessage">An error occurred. Please try again.</p>
+                    <div class="error-actions">
+                        <button class="btn-secondary" id="retryBtn">Try Again</button>
+                        <button class="btn-text" id="dismissErrorBtn">Dismiss</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <span id="lastUpdate">Ready to generate availability</span>
+            <button class="refresh-btn" id="refreshBtn" title="Refresh calendar data">🔄</button>
+        </footer>
+    </div>
+
+    <!-- Settings Overlay -->
+    <div class="settings-overlay" id="settingsOverlay" style="display: none;">
+        <div class="settings-modal">
+            <div class="settings-header">
+                <h2>Settings</h2>
+                <button class="close-btn" id="closeSettingsBtn">×</button>
+            </div>
+
+            <div class="settings-tabs">
+                <button class="tab-btn active" data-tab="personal">Personal</button>
+                <button class="tab-btn" data-tab="schedule">Schedule</button>
+                <button class="tab-btn" data-tab="advanced">Advanced</button>
+            </div>
+
+            <div class="settings-content">
+                <!-- Personal Tab -->
+                <div class="tab-panel active" id="personal-panel">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="your@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="meetingTitle">Meeting Title</label>
+                        <input type="text" id="meetingTitle" placeholder="Meeting with [Your Name]">
+                    </div>
+                    <div class="form-group">
+                        <label for="zoomLink">Zoom/Meeting Link</label>
+                        <input type="url" id="zoomLink" placeholder="https://zoom.us/j/...">
+                    </div>
+                </div>
+
+                <!-- Schedule Tab -->
+                <div class="tab-panel" id="schedule-panel">
+                    <div class="form-group">
+                        <label>Business Hours</label>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <select id="startTime">
+                                    <option value="8">8:00 AM</option>
+                                    <option value="9" selected>9:00 AM</option>
+                                    <option value="10">10:00 AM</option>
+                                </select>
+                            </div>
+                            <span>to</span>
+                            <div class="form-col">
+                                <select id="endTime">
+                                    <option value="16">4:00 PM</option>
+                                    <option value="17" selected>5:00 PM</option>
+                                    <option value="18">6:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="meetingDuration">Meeting Duration</label>
+                        <select id="meetingDuration">
+                            <option value="15">15 minutes</option>
+                            <option value="30" selected>30 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="60">1 hour</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateRange">Default Date Range</label>
+                        <select id="dateRange">
+                            <option value="3" selected>Next 3 business days</option>
+                            <option value="5">Next 5 business days</option>
+                            <option value="7">Next 7 days</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Advanced Tab -->
+                <div class="tab-panel" id="advanced-panel">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="autoCopy" checked>
+                        <label for="autoCopy">Automatically copy to clipboard</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="minimizeAfterCopy" checked>
+                        <label for="minimizeAfterCopy">Minimize to menu bar after copying</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="showNotifications" checked>
+                        <label for="showNotifications">Show desktop notifications</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-footer">
+                <button class="btn-secondary" id="cancelSettingsBtn">Cancel</button>
+                <button class="btn-primary" id="saveSettingsBtn">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../scripts/main-window.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "exportDate": "2025-08-27T04:57:10.065Z",
+  "wireframeType": "onboarding",
+  "version": "1.0",
+  "textContent": {
+    "step1-title": "Welcome to FreeBusy",
+    "step1-subtitle": "Share availability instantly",
+    "feature1": "Connect to Google Calendar securely",
+    "feature2": "Generate availability instantly",
+    "feature3": "Copy to clipboard in one click",
+    "feature4": "Share professional booking links",
+    "step1-button": "Get Started",
+    "step2-title": "Connect your Google Calendar",
+    "step2-subtitle": "We need read-only access to check when you're busy",
+    "privacy-title": "🛡️ Your Privacy is Protected",
+    "privacy-desc": "FreeBusy only reads when you're busy, never meeting details, attendees, or content. Your calendar data stays private and secure.",
+    "step2-button": "Connect Google Calendar",
+    "step3-title": "Meeting details",
+    "step3-subtitle": "These details will appear in your booking links",
+    "config-email-label": "Email Address",
+    "config-title-label": "Meeting Title",
+    "config-zoom-label": "Zoom/Meeting Link",
+    "step3-save-btn": "Save & Continue",
+    "step3-skip-btn": "Skip for Now",
+    "step4-title": "You're all set!",
+    "step4-subtitle": "FreeBusy is ready to streamline your scheduling",
+    "tip1": "Click \\",
+    "tip2": "Results are automatically copied to your clipboard",
+    "step4-button": "Find my availability",
+    "step4-settings": "More settings"
+  }
+}

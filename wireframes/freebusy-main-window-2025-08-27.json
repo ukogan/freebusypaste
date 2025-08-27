@@ -1,0 +1,18 @@
+{
+  "exportDate": "2025-08-27T04:53:30.232Z",
+  "wireframeType": "main-window",
+  "version": "1.0",
+  "textContent": {
+    "window-title": "FreeBusy",
+    "app-title": "",
+    "date-range": "Next 3 business days: Aug 27-29, 2025",
+    "user-status": "Connected as: ukogan@rzero.com",
+    "generation-desc": "",
+    "generate-btn": "🔍 Find my availability",
+    "copy-btn": "📋 Copy to clipboard",
+    "save-btn": "💾 Save to file",
+    "success-msg": "✅ Availability copied! Paste away.",
+    "last-updated": "Last updated: 2 minutes ago",
+    "refresh-btn": "🔄 Refresh"
+  }
+}

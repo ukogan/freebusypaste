@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Onboarding - Editable Wireframe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        
+        .wireframe-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .text-editor {
+            width: 400px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .editor-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 8px;
+        }
+        
+        .text-group {
+            margin-bottom: 20px;
+        }
+        
+        .text-group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .text-field {
+            margin-bottom: 12px;
+        }
+        
+        .text-label {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            transition: border-color 0.2s;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+        
+        .text-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+        
+        .onboarding-container {
+            width: 480px;
+            min-height: 600px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid #ccc;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #dee2e6;
+            margin: 0 6px;
+            transition: background 0.3s ease;
+        }
+        
+        .step-dot.active {
+            background: #0066cc;
+        }
+        
+        .step-content {
+            flex: 1;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .step-panel {
+            display: none;
+        }
+        
+        .step-panel.active {
+            display: block;
+        }
+        
+        .step-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+        
+        .step-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        
+        .step-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        
+        .feature-list {
+            text-align: left;
+            margin-bottom: 32px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            background: #e6f3ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #0066cc;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .step-actions {
+            padding: 24px 32px;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn-primary {
+            padding: 12px 32px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .btn-text {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .reset-btn {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        
+        .instructions {
+            background: #e6f3ff;
+            border: 1px solid #0066cc;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #0066cc;
+        }
+        
+        .step-nav {
+            margin-bottom: 12px;
+        }
+        
+        .step-nav button {
+            padding: 8px 16px;
+            margin: 0 4px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .step-nav button.active {
+            background: #0066cc;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="wireframe-container">
+        <div class="text-editor">
+            <h2 class="editor-title">✏️ Edit Onboarding Text</h2>
+            
+            <div class="instructions">
+                Edit the onboarding flow text and navigate between steps to see your changes in context.
+            </div>
+            
+            <div class="step-nav">
+                <button onclick="showStep(1)" class="active">Step 1</button>
+                <button onclick="showStep(2)">Step 2</button>
+                <button onclick="showStep(3)">Step 3</button>
+                <button onclick="showStep(4)">Step 4</button>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Step 1 - Welcome</div>
+                <div class="text-field">
+                    <label class="text-label">Main Title</label>
+                    <input type="text" class="text-input" id="step1-title" value="Welcome to FreeBusy Calendar">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Subtitle</label>
+                    <input type="text" class="text-input" id="step1-subtitle" value="Share your availability in seconds, not minutes">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Feature 1</label>
+                    <input type="text" class="text-input" id="feature1" value="Connect your Google Calendar securely">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Feature 2</label>
+                    <input type="text" class="text-input" id="feature2" value="Generate availability tables instantly">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Feature 3</label>
+                    <input type="text" class="text-input" id="feature3" value="One-click copying to clipboard">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Feature 4</label>
+                    <input type="text" class="text-input" id="feature4" value="Professional booking links for clients">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Get Started Button</label>
+                    <input type="text" class="text-input" id="step1-button" value="Get Started">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Step 2 - Authentication</div>
+                <div class="text-field">
+                    <label class="text-label">Auth Title</label>
+                    <input type="text" class="text-input" id="step2-title" value="Connect Your Google Calendar">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Auth Subtitle</label>
+                    <input type="text" class="text-input" id="step2-subtitle" value="We need read-only access to check when you're busy">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Privacy Box Title</label>
+                    <input type="text" class="text-input" id="privacy-title" value="🛡️ Your Privacy is Protected">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Privacy Description</label>
+                    <textarea class="text-textarea" id="privacy-desc">FreeBusy only reads when you're busy - never meeting details, attendees, or content. Your calendar data stays private and secure.</textarea>
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Connect Button</label>
+                    <input type="text" class="text-input" id="step2-button" value="Connect Google Calendar">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Step 3 - Configuration</div>
+                <div class="text-field">
+                    <label class="text-label">Config Title</label>
+                    <input type="text" class="text-input" id="step3-title" value="Tell Us About Yourself">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Config Subtitle</label>
+                    <input type="text" class="text-input" id="step3-subtitle" value="These details will appear in your booking links">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Email Label</label>
+                    <input type="text" class="text-input" id="config-email-label" value="Email Address">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Meeting Title Label</label>
+                    <input type="text" class="text-input" id="config-title-label" value="Meeting Title">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Zoom Link Label</label>
+                    <input type="text" class="text-input" id="config-zoom-label" value="Zoom/Meeting Link">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Save Button</label>
+                    <input type="text" class="text-input" id="step3-save-btn" value="Save & Continue">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Skip Button</label>
+                    <input type="text" class="text-input" id="step3-skip-btn" value="Skip for Now">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Step 4 - Complete</div>
+                <div class="text-field">
+                    <label class="text-label">Success Title</label>
+                    <input type="text" class="text-input" id="step4-title" value="You're All Set!">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Success Subtitle</label>
+                    <input type="text" class="text-input" id="step4-subtitle" value="FreeBusy is ready to streamline your scheduling">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Tip 1</label>
+                    <input type="text" class="text-input" id="tip1" value="Click \"Generate Availability\" to create your first table">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Tip 2</label>
+                    <input type="text" class="text-input" id="tip2" value="Results are automatically copied to your clipboard">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Final Button</label>
+                    <input type="text" class="text-input" id="step4-button" value="Generate My First Availability">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Settings Button</label>
+                    <input type="text" class="text-input" id="step4-settings" value="Explore Settings">
+                </div>
+            </div>
+            
+            <button class="reset-btn" onclick="resetToDefaults()">Reset to Defaults</button>
+            
+            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e5e5;">
+                <div style="margin-bottom: 12px;">
+                    <button class="reset-btn" style="background: #17a2b8;" onclick="exportSettings()">💾 Export My Changes</button>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importSettings(event)">
+                    <button class="reset-btn" style="background: #6c757d;" onclick="document.getElementById('import-file').click()">📂 Import Changes</button>
+                </div>
+                <div style="font-size: 11px; color: #666; line-height: 1.3;">
+                    Export creates a JSON file you can share. Import loads previously saved changes.
+                </div>
+            </div>
+        </div>
+        
+        <div class="onboarding-container">
+            <div class="step-indicator">
+                <div class="step-dot active" id="dot-1"></div>
+                <div class="step-dot" id="dot-2"></div>
+                <div class="step-dot" id="dot-3"></div>
+                <div class="step-dot" id="dot-4"></div>
+            </div>
+            
+            <div class="step-content">
+                <!-- Step 1: Welcome -->
+                <div class="step-panel active" id="step-1">
+                    <div class="step-icon">📅</div>
+                    <h1 class="step-title" id="step1-title-display">Welcome to FreeBusy Calendar</h1>
+                    <p class="step-subtitle" id="step1-subtitle-display">Share your availability in seconds, not minutes</p>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <span id="feature1-display">Connect your Google Calendar securely</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <span id="feature2-display">Generate availability tables instantly</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <span id="feature3-display">One-click copying to clipboard</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <span id="feature4-display">Professional booking links for clients</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Authentication -->
+                <div class="step-panel" id="step-2">
+                    <div class="step-icon">🔐</div>
+                    <h2 class="step-title" id="step2-title-display">Connect Your Google Calendar</h2>
+                    <p class="step-subtitle" id="step2-subtitle-display">We need read-only access to check when you're busy</p>
+                    
+                    <div style="background: #f8f9fa; border: 1px solid #e5e5e5; border-radius: 8px; padding: 16px; margin-bottom: 24px; text-align: left;">
+                        <div style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;" id="privacy-title-display">🛡️ Your Privacy is Protected</div>
+                        <div style="font-size: 12px; color: #666; line-height: 1.4;" id="privacy-desc-display">
+                            FreeBusy only reads when you're busy - never meeting details, attendees, or content. Your calendar data stays private and secure.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Configuration -->
+                <div class="step-panel" id="step-3">
+                    <div class="step-icon">⚙️</div>
+                    <h2 class="step-title" id="step3-title-display">Tell Us About Yourself</h2>
+                    <p class="step-subtitle" id="step3-subtitle-display">These details will appear in your booking links</p>
+                    
+                    <div style="text-align: left;">
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" id="config-email-label-display">Email Address</label>
+                            <input type="email" style="width: 100%; padding: 12px 16px; border: 2px solid #e5e5e5; border-radius: 8px; font-size: 14px;" value="ukogan@rzero.com">
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" id="config-title-label-display">Meeting Title</label>
+                            <input type="text" style="width: 100%; padding: 12px 16px; border: 2px solid #e5e5e5; border-radius: 8px; font-size: 14px;" value="Meeting with Uri">
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" id="config-zoom-label-display">Zoom/Meeting Link</label>
+                            <input type="url" style="width: 100%; padding: 12px 16px; border: 2px solid #e5e5e5; border-radius: 8px; font-size: 14px;" value="https://rzero.zoom.us/j/5152335657">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Complete -->
+                <div class="step-panel" id="step-4">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 24px; background: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px;">✓</div>
+                    <h2 class="step-title" id="step4-title-display">You're All Set!</h2>
+                    <p class="step-subtitle" id="step4-subtitle-display">FreeBusy is ready to streamline your scheduling</p>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">💡</div>
+                            <span id="tip1-display">Click "Generate Availability" to create your first table</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">💡</div>
+                            <span id="tip2-display">Results are automatically copied to your clipboard</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-actions">
+                <button class="btn-text" id="back-btn" onclick="previousStep()" style="display: none;">← Back</button>
+                <div id="action-buttons">
+                    <button class="btn-primary" id="primary-btn" onclick="nextStep()">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+        
+        // Real-time text updates
+        function setupTextEditing() {
+            const textInputs = {
+                'step1-title': 'step1-title-display',
+                'step1-subtitle': 'step1-subtitle-display',
+                'feature1': 'feature1-display',
+                'feature2': 'feature2-display',
+                'feature3': 'feature3-display',
+                'feature4': 'feature4-display',
+                'step2-title': 'step2-title-display',
+                'step2-subtitle': 'step2-subtitle-display',
+                'privacy-title': 'privacy-title-display',
+                'privacy-desc': 'privacy-desc-display',
+                'step3-title': 'step3-title-display',
+                'step3-subtitle': 'step3-subtitle-display',
+                'config-email-label': 'config-email-label-display',
+                'config-title-label': 'config-title-label-display',
+                'config-zoom-label': 'config-zoom-label-display',
+                'step4-title': 'step4-title-display',
+                'step4-subtitle': 'step4-subtitle-display',
+                'tip1': 'tip1-display',
+                'tip2': 'tip2-display'
+            };
+            
+            Object.keys(textInputs).forEach(inputId => {
+                const input = document.getElementById(inputId);
+                const display = document.getElementById(textInputs[inputId]);
+                
+                input.addEventListener('input', () => {
+                    display.textContent = input.value;
+                });
+            });
+        }
+        
+        function updateStepIndicator() {
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                dot.className = 'step-dot';
+                if (i <= currentStep) {
+                    dot.className += ' active';
+                }
+            }
+        }
+        
+        function showStep(step) {
+            currentStep = step;
+            
+            // Hide all panels
+            document.querySelectorAll('.step-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Show current panel
+            document.getElementById(`step-${step}`).classList.add('active');
+            
+            // Update step nav
+            document.querySelectorAll('.step-nav button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.step-nav button')[step - 1].classList.add('active');
+            
+            // Update back button
+            const backBtn = document.getElementById('back-btn');
+            backBtn.style.display = step > 1 ? 'block' : 'none';
+            
+            // Update primary button
+            const primaryBtn = document.getElementById('primary-btn');
+            const actionButtons = document.getElementById('action-buttons');
+            
+            switch(step) {
+                case 1:
+                    actionButtons.innerHTML = '<button class="btn-primary" onclick="nextStep()" id="step1-btn-display">Get Started</button>';
+                    break;
+                case 2:
+                    actionButtons.innerHTML = '<button class="btn-primary" onclick="nextStep()" id="step2-btn-display">Connect Google Calendar</button>';
+                    break;
+                case 3:
+                    actionButtons.innerHTML = `
+                        <button style="padding: 12px 24px; background: white; color: #0066cc; border: 2px solid #0066cc; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-right: 12px;" onclick="nextStep()" id="step3-skip-btn-display">Skip for Now</button>
+                        <button class="btn-primary" onclick="nextStep()" id="step3-save-btn-display">Save & Continue</button>
+                    `;
+                    break;
+                case 4:
+                    actionButtons.innerHTML = `
+                        <button style="padding: 12px 24px; background: white; color: #0066cc; border: 2px solid #0066cc; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-right: 12px;" id="step4-settings-display">Explore Settings</button>
+                        <button class="btn-primary" id="step4-button-display">Generate My First Availability</button>
+                    `;
+                    break;
+            }
+            
+            updateStepIndicator();
+            updateButtonText();
+        }
+        
+        function updateButtonText() {
+            const step1Btn = document.getElementById('step1-btn-display');
+            const step2Btn = document.getElementById('step2-btn-display');
+            const step3SaveBtn = document.getElementById('step3-save-btn-display');
+            const step3SkipBtn = document.getElementById('step3-skip-btn-display');
+            const step4Btn = document.getElementById('step4-button-display');
+            const step4Settings = document.getElementById('step4-settings-display');
+            
+            if (step1Btn) step1Btn.textContent = document.getElementById('step1-button').value;
+            if (step2Btn) step2Btn.textContent = document.getElementById('step2-button').value;
+            if (step3SaveBtn) step3SaveBtn.textContent = document.getElementById('step3-save-btn').value;
+            if (step3SkipBtn) step3SkipBtn.textContent = document.getElementById('step3-skip-btn').value;
+            if (step4Btn) step4Btn.textContent = document.getElementById('step4-button').value;
+            if (step4Settings) step4Settings.textContent = document.getElementById('step4-settings').value;
+        }
+        
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                showStep(currentStep + 1);
+            }
+        }
+        
+        function previousStep() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+        
+        function resetToDefaults() {
+            const defaults = {
+                'step1-title': 'Welcome to FreeBusy Calendar',
+                'step1-subtitle': 'Share your availability in seconds, not minutes',
+                'feature1': 'Connect your Google Calendar securely',
+                'feature2': 'Generate availability tables instantly',
+                'feature3': 'One-click copying to clipboard',
+                'feature4': 'Professional booking links for clients',
+                'step1-button': 'Get Started',
+                'step2-title': 'Connect Your Google Calendar',
+                'step2-subtitle': 'We need read-only access to check when you\'re busy',
+                'privacy-title': '🛡️ Your Privacy is Protected',
+                'privacy-desc': 'FreeBusy only reads when you\'re busy - never meeting details, attendees, or content. Your calendar data stays private and secure.',
+                'step2-button': 'Connect Google Calendar',
+                'step3-title': 'Tell Us About Yourself',
+                'step3-subtitle': 'These details will appear in your booking links',
+                'config-email-label': 'Email Address',
+                'config-title-label': 'Meeting Title',
+                'config-zoom-label': 'Zoom/Meeting Link',
+                'step3-save-btn': 'Save & Continue',
+                'step3-skip-btn': 'Skip for Now',
+                'step4-title': 'You\'re All Set!',
+                'step4-subtitle': 'FreeBusy is ready to streamline your scheduling',
+                'tip1': 'Click "Generate Availability" to create your first table',
+                'tip2': 'Results are automatically copied to your clipboard',
+                'step4-button': 'Generate My First Availability',
+                'step4-settings': 'Explore Settings'
+            };
+            
+            Object.keys(defaults).forEach(id => {
+                const input = document.getElementById(id);
+                const display = document.getElementById(id + '-display');
+                
+                input.value = defaults[id];
+                if (display) {
+                    display.textContent = defaults[id];
+                }
+            });
+            
+            updateButtonText();
+        }
+        
+        function exportSettings() {
+            const settings = {
+                exportDate: new Date().toISOString(),
+                wireframeType: 'onboarding',
+                version: '1.0',
+                textContent: {}
+            };
+            
+            // Collect all text input values
+            const textInputs = [
+                'step1-title', 'step1-subtitle', 'feature1', 'feature2', 'feature3', 'feature4', 'step1-button',
+                'step2-title', 'step2-subtitle', 'privacy-title', 'privacy-desc', 'step2-button',
+                'step3-title', 'step3-subtitle', 'config-email-label', 'config-title-label', 'config-zoom-label',
+                'step3-save-btn', 'step3-skip-btn',
+                'step4-title', 'step4-subtitle', 'tip1', 'tip2', 'step4-button', 'step4-settings'
+            ];
+            
+            textInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    settings.textContent[id] = input.value;
+                }
+            });
+            
+            // Create and download JSON file
+            const dataStr = JSON.stringify(settings, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `freebusy-onboarding-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert('✅ Onboarding changes exported! Share the downloaded JSON file.');
+        }
+        
+        function importSettings(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const settings = JSON.parse(e.target.result);
+                    
+                    if (settings.wireframeType !== 'onboarding') {
+                        alert('❌ This file is not for the onboarding wireframe.');
+                        return;
+                    }
+                    
+                    // Apply imported text content
+                    Object.keys(settings.textContent).forEach(id => {
+                        const input = document.getElementById(id);
+                        const display = document.getElementById(id + '-display');
+                        
+                        if (input) {
+                            input.value = settings.textContent[id];
+                            if (display) {
+                                display.textContent = settings.textContent[id];
+                            }
+                        }
+                    });
+                    
+                    updateButtonText();
+                    alert(`✅ Onboarding imported from ${new Date(settings.exportDate).toLocaleDateString()}`);
+                } catch (error) {
+                    alert('❌ Error reading file. Please check the file format.');
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+        
+        // Initialize
+        setupTextEditing();
+        
+        // Update button text when inputs change
+        ['step1-button', 'step2-button', 'step3-save-btn', 'step3-skip-btn', 'step4-button', 'step4-settings'].forEach(id => {
+            const input = document.getElementById(id);
+            input.addEventListener('input', updateButtonText);
+        });
+    </script>
+</body>
+</html>

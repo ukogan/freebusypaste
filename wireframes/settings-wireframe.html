@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Settings - Editable Wireframe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        
+        .wireframe-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .text-editor {
+            width: 400px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .editor-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 8px;
+        }
+        
+        .text-group {
+            margin-bottom: 20px;
+        }
+        
+        .text-group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .text-field {
+            margin-bottom: 12px;
+        }
+        
+        .text-label {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            transition: border-color 0.2s;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+        
+        .text-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+        
+        .settings-modal {
+            width: 600px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid #ccc;
+        }
+        
+        .modal-header {
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tab-navigation {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: #0066cc;
+            background: white;
+            border-bottom-color: #0066cc;
+        }
+        
+        .tab-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        .tab-panel {
+            display: none;
+        }
+        
+        .tab-panel.active {
+            display: block;
+        }
+        
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: #f8fff9;
+            border: 1px solid #d4edda;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-text {
+            flex: 1;
+        }
+        
+        .status-title {
+            font-weight: 600;
+            color: #155724;
+            font-size: 14px;
+        }
+        
+        .status-desc {
+            font-size: 12px;
+            color: #155724;
+            opacity: 0.8;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .form-help {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e5e5e5;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .modal-footer {
+            padding: 16px 24px;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .btn-secondary {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e5e5e5;
+            color: #666;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            padding: 10px 20px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .reset-btn {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        
+        .instructions {
+            background: #e6f3ff;
+            border: 1px solid #0066cc;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="wireframe-container">
+        <div class="text-editor">
+            <h2 class="editor-title">✏️ Edit Settings Text</h2>
+            
+            <div class="instructions">
+                Edit settings text and see changes reflected in the modal. Use tabs to navigate between different sections.
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Modal Header</div>
+                <div class="text-field">
+                    <label class="text-label">Modal Title</label>
+                    <input type="text" class="text-input" id="modal-title" value="Settings">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Tab Labels</div>
+                <div class="text-field">
+                    <label class="text-label">Account Tab</label>
+                    <input type="text" class="text-input" id="tab-account" value="Account">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Personal Tab</label>
+                    <input type="text" class="text-input" id="tab-personal" value="Personal">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Schedule Tab</label>
+                    <input type="text" class="text-input" id="tab-schedule" value="Schedule">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Advanced Tab</label>
+                    <input type="text" class="text-input" id="tab-advanced" value="Advanced">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Connection Status</div>
+                <div class="text-field">
+                    <label class="text-label">Status Title</label>
+                    <input type="text" class="text-input" id="status-title" value="Connected to Google Calendar">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Status Description</label>
+                    <input type="text" class="text-input" id="status-desc" value="ukogan@rzero.com • Access expires in 7 days">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Reconnect Button</label>
+                    <input type="text" class="text-input" id="reconnect-btn" value="Reconnect">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Personal Section</div>
+                <div class="text-field">
+                    <label class="text-label">Email Label</label>
+                    <input type="text" class="text-input" id="email-label" value="Email Address">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Email Help Text</label>
+                    <input type="text" class="text-input" id="email-help" value="This email will be added to calendar invitations">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Meeting Title Label</label>
+                    <input type="text" class="text-input" id="title-label" value="Meeting Title Template">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Meeting Title Help</label>
+                    <input type="text" class="text-input" id="title-help" value="Default title for calendar invitations">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Zoom Link Label</label>
+                    <input type="text" class="text-input" id="zoom-label" value="Zoom/Meeting Link">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Zoom Link Help</label>
+                    <input type="text" class="text-input" id="zoom-help" value="This link will be included in all calendar invitations">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Schedule Section</div>
+                <div class="text-field">
+                    <label class="text-label">Business Hours Title</label>
+                    <input type="text" class="text-input" id="hours-title" value="Business Hours">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Business Hours Help</label>
+                    <textarea class="text-textarea" id="hours-help">Your preferred meeting hours (times shown in your local timezone)</textarea>
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Start Time Label</label>
+                    <input type="text" class="text-input" id="start-label" value="Start Time">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">End Time Label</label>
+                    <input type="text" class="text-input" id="end-label" value="End Time">
+                </div>
+            </div>
+            
+            <div class="text-group">
+                <div class="text-group-title">Footer Buttons</div>
+                <div class="text-field">
+                    <label class="text-label">Cancel Button</label>
+                    <input type="text" class="text-input" id="cancel-btn" value="Cancel">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Apply Button</label>
+                    <input type="text" class="text-input" id="apply-btn" value="Apply">
+                </div>
+                <div class="text-field">
+                    <label class="text-label">Save & Close Button</label>
+                    <input type="text" class="text-input" id="save-close-btn" value="Save & Close">
+                </div>
+            </div>
+            
+            <button class="reset-btn" onclick="resetToDefaults()">Reset to Defaults</button>
+            
+            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e5e5;">
+                <div style="margin-bottom: 12px;">
+                    <button class="reset-btn" style="background: #17a2b8;" onclick="exportSettings()">💾 Export My Changes</button>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importSettings(event)">
+                    <button class="reset-btn" style="background: #6c757d;" onclick="document.getElementById('import-file').click()">📂 Import Changes</button>
+                </div>
+                <div style="font-size: 11px; color: #666; line-height: 1.3;">
+                    Export creates a JSON file you can share. Import loads previously saved changes.
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title-display">Settings</h2>
+                <button class="close-btn">×</button>
+            </div>
+            
+            <div class="tab-navigation">
+                <button class="tab-btn active" id="tab-account-display" onclick="showTab('account')">Account</button>
+                <button class="tab-btn" id="tab-personal-display" onclick="showTab('personal')">Personal</button>
+                <button class="tab-btn" id="tab-schedule-display" onclick="showTab('schedule')">Schedule</button>
+                <button class="tab-btn" id="tab-advanced-display" onclick="showTab('advanced')">Advanced</button>
+            </div>
+            
+            <div class="tab-content">
+                <!-- Account Tab -->
+                <div class="tab-panel active" id="account-panel">
+                    <div class="connection-status">
+                        <div class="status-icon">✓</div>
+                        <div class="status-text">
+                            <div class="status-title" id="status-title-display">Connected to Google Calendar</div>
+                            <div class="status-desc" id="status-desc-display">ukogan@rzero.com • Access expires in 7 days</div>
+                        </div>
+                        <button class="btn-primary" id="reconnect-btn-display">Reconnect</button>
+                    </div>
+                    
+                    <div class="section-title">Permissions</div>
+                    <p style="color: #666; font-size: 14px; line-height: 1.5; margin-bottom: 16px;">
+                        FreeBusy has read-only access to your calendar availability. We never access meeting details, attendees, or content.
+                    </p>
+                </div>
+                
+                <!-- Personal Tab -->
+                <div class="tab-panel" id="personal-panel">
+                    <div class="form-group">
+                        <label class="form-label" id="email-label-display" for="email">Email Address</label>
+                        <div class="form-help" id="email-help-display">This email will be added to calendar invitations</div>
+                        <input type="email" id="email" class="form-input" value="ukogan@rzero.com" placeholder="your@company.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" id="title-label-display" for="meeting-title">Meeting Title Template</label>
+                        <div class="form-help" id="title-help-display">Default title for calendar invitations</div>
+                        <input type="text" id="meeting-title" class="form-input" value="Meeting with Uri" placeholder="Meeting with [Your Name]">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" id="zoom-label-display" for="zoom-link">Zoom/Meeting Link</label>
+                        <div class="form-help" id="zoom-help-display">This link will be included in all calendar invitations</div>
+                        <input type="url" id="zoom-link" class="form-input" value="https://rzero.zoom.us/j/5152335657" placeholder="https://zoom.us/j/...">
+                    </div>
+                </div>
+                
+                <!-- Schedule Tab -->
+                <div class="tab-panel" id="schedule-panel">
+                    <div class="form-group">
+                        <label class="form-label" id="hours-title-display">Business Hours</label>
+                        <div class="form-help" id="hours-help-display">Your preferred meeting hours (times shown in your local timezone)</div>
+                        <div style="display: flex; gap: 16px;">
+                            <div style="flex: 1;">
+                                <label class="form-label" id="start-label-display" style="font-size: 12px;">Start Time</label>
+                                <select class="form-input">
+                                    <option value="8">8:00 AM</option>
+                                    <option value="9" selected>9:00 AM</option>
+                                    <option value="10">10:00 AM</option>
+                                </select>
+                            </div>
+                            <div style="flex: 1;">
+                                <label class="form-label" id="end-label-display" style="font-size: 12px;">End Time</label>
+                                <select class="form-input">
+                                    <option value="17">5:00 PM</option>
+                                    <option value="18" selected>6:00 PM</option>
+                                    <option value="19">7:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="meeting-duration">Meeting Duration</label>
+                        <div class="form-help">Default length for availability slots</div>
+                        <select id="meeting-duration" class="form-input">
+                            <option value="15">15 minutes</option>
+                            <option value="30" selected>30 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="60">1 hour</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Advanced Tab -->
+                <div class="tab-panel" id="advanced-panel">
+                    <div class="section-title">Behavior</div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" checked style="width: 16px; height: 16px;">
+                            <span>Automatically copy results to clipboard</span>
+                        </label>
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" checked style="width: 16px; height: 16px;">
+                            <span>Show desktop notifications</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-btn-display">Cancel</button>
+                <button class="btn-secondary" id="apply-btn-display">Apply</button>
+                <button class="btn-primary" id="save-close-btn-display">Save & Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Real-time text updates
+        function setupTextEditing() {
+            const textInputs = {
+                'modal-title': 'modal-title-display',
+                'tab-account': 'tab-account-display',
+                'tab-personal': 'tab-personal-display',
+                'tab-schedule': 'tab-schedule-display',
+                'tab-advanced': 'tab-advanced-display',
+                'status-title': 'status-title-display',
+                'status-desc': 'status-desc-display',
+                'reconnect-btn': 'reconnect-btn-display',
+                'email-label': 'email-label-display',
+                'email-help': 'email-help-display',
+                'title-label': 'title-label-display',
+                'title-help': 'title-help-display',
+                'zoom-label': 'zoom-label-display',
+                'zoom-help': 'zoom-help-display',
+                'hours-title': 'hours-title-display',
+                'hours-help': 'hours-help-display',
+                'start-label': 'start-label-display',
+                'end-label': 'end-label-display',
+                'cancel-btn': 'cancel-btn-display',
+                'apply-btn': 'apply-btn-display',
+                'save-close-btn': 'save-close-btn-display'
+            };
+            
+            Object.keys(textInputs).forEach(inputId => {
+                const input = document.getElementById(inputId);
+                const display = document.getElementById(textInputs[inputId]);
+                
+                input.addEventListener('input', () => {
+                    display.textContent = input.value;
+                });
+            });
+        }
+        
+        function showTab(tabName) {
+            // Hide all panels
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected panel
+            document.getElementById(tabName + '-panel').classList.add('active');
+            
+            // Activate clicked tab
+            event.target.classList.add('active');
+        }
+        
+        function resetToDefaults() {
+            const defaults = {
+                'modal-title': 'Settings',
+                'tab-account': 'Account',
+                'tab-personal': 'Personal',
+                'tab-schedule': 'Schedule',
+                'tab-advanced': 'Advanced',
+                'status-title': 'Connected to Google Calendar',
+                'status-desc': 'ukogan@rzero.com • Access expires in 7 days',
+                'reconnect-btn': 'Reconnect',
+                'email-label': 'Email Address',
+                'email-help': 'This email will be added to calendar invitations',
+                'title-label': 'Meeting Title Template',
+                'title-help': 'Default title for calendar invitations',
+                'zoom-label': 'Zoom/Meeting Link',
+                'zoom-help': 'This link will be included in all calendar invitations',
+                'hours-title': 'Business Hours',
+                'hours-help': 'Your preferred meeting hours (times shown in your local timezone)',
+                'start-label': 'Start Time',
+                'end-label': 'End Time',
+                'cancel-btn': 'Cancel',
+                'apply-btn': 'Apply',
+                'save-close-btn': 'Save & Close'
+            };
+            
+            Object.keys(defaults).forEach(id => {
+                const input = document.getElementById(id);
+                const display = document.getElementById(id + '-display');
+                
+                input.value = defaults[id];
+                if (display) {
+                    display.textContent = defaults[id];
+                }
+            });
+        }
+        
+        function exportSettings() {
+            const settings = {
+                exportDate: new Date().toISOString(),
+                wireframeType: 'settings',
+                version: '1.0',
+                textContent: {}
+            };
+            
+            // Collect all text input values
+            const textInputs = [
+                'modal-title', 'tab-account', 'tab-personal', 'tab-schedule', 'tab-advanced',
+                'status-title', 'status-desc', 'reconnect-btn',
+                'email-label', 'email-help', 'title-label', 'title-help',
+                'zoom-label', 'zoom-help', 'hours-title', 'hours-help',
+                'start-label', 'end-label', 'cancel-btn', 'apply-btn', 'save-close-btn'
+            ];
+            
+            textInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    settings.textContent[id] = input.value;
+                }
+            });
+            
+            // Create and download JSON file
+            const dataStr = JSON.stringify(settings, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `freebusy-settings-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert('✅ Settings changes exported! Share the downloaded JSON file.');
+        }
+        
+        function importSettings(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const settings = JSON.parse(e.target.result);
+                    
+                    if (settings.wireframeType !== 'settings') {
+                        alert('❌ This file is not for the settings wireframe.');
+                        return;
+                    }
+                    
+                    // Apply imported text content
+                    Object.keys(settings.textContent).forEach(id => {
+                        const input = document.getElementById(id);
+                        const display = document.getElementById(id + '-display');
+                        
+                        if (input) {
+                            input.value = settings.textContent[id];
+                            if (display) {
+                                display.textContent = settings.textContent[id];
+                            }
+                        }
+                    });
+                    
+                    alert(`✅ Settings imported from ${new Date(settings.exportDate).toLocaleDateString()}`);
+                } catch (error) {
+                    alert('❌ Error reading file. Please check the file format.');
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+        
+        // Initialize
+        setupTextEditing();
+    </script>
+</body>
+</html>
