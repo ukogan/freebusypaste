@@ -11,6 +11,13 @@ class FreeBusyMainWindow {
     this.setupEventListeners();
     this.setupElectronListeners();
     await this.checkDemoMode();
+    
+    // Check if this is first run
+    const isFirstRun = await this.checkFirstRun();
+    if (isFirstRun) {
+      await this.showFirstRunOnboarding();
+    }
+    
     await this.checkAuthStatus();
     await this.loadSettings();
     this.updateUI();
@@ -84,6 +91,76 @@ class FreeBusyMainWindow {
     } catch (error) {
       console.error('Failed to check demo mode:', error);
       this.isDemoMode = false;
+    }
+  }
+  
+  async checkFirstRun() {
+    try {
+      return await window.electronAPI.app.isFirstRun();
+    } catch (error) {
+      console.error('Failed to check first run:', error);
+      return false;
+    }
+  }
+  
+  async showFirstRunOnboarding() {
+    // Simple first-run welcome message for now
+    const welcomeMessage = `
+      <div style="text-align: center; padding: 40px; background: #f8f9fa; border-radius: 12px; margin: 20px;">
+        <h2>🎉 Welcome to FreeBusy!</h2>
+        <p style="margin: 20px 0; color: #6c757d;">
+          Generate your calendar availability in seconds. Let's get you set up!
+        </p>
+        <div style="margin: 20px 0;">
+          ${this.isDemoMode ? 
+            '<p><strong>Demo Mode:</strong> You can try all features without connecting to Google Calendar.</p>' :
+            '<p>First, connect your Google Calendar to get started.</p>'
+          }
+        </div>
+        <button id="startOnboarding" style="
+          background: #007bff; 
+          color: white; 
+          border: none; 
+          padding: 12px 24px; 
+          border-radius: 6px; 
+          cursor: pointer;
+          font-size: 14px;
+          margin: 10px;
+        ">Get Started</button>
+        <button id="skipOnboarding" style="
+          background: transparent; 
+          color: #6c757d; 
+          border: 1px solid #dee2e6; 
+          padding: 12px 24px; 
+          border-radius: 6px; 
+          cursor: pointer;
+          font-size: 14px;
+          margin: 10px;
+        ">Skip for now</button>
+      </div>
+    `;
+    
+    // Show welcome message
+    const authSection = document.getElementById('authSection');
+    authSection.innerHTML = welcomeMessage;
+    
+    // Handle onboarding buttons
+    document.getElementById('startOnboarding').addEventListener('click', async () => {
+      await this.completeOnboarding();
+      location.reload(); // Reload to show normal interface
+    });
+    
+    document.getElementById('skipOnboarding').addEventListener('click', async () => {
+      await this.completeOnboarding();
+      location.reload(); // Reload to show normal interface
+    });
+  }
+  
+  async completeOnboarding() {
+    try {
+      await window.electronAPI.app.completeOnboarding();
+    } catch (error) {
+      console.error('Failed to complete onboarding:', error);
     }
   }
   
@@ -253,8 +330,8 @@ class FreeBusyMainWindow {
       // Use the markdown format for clipboard
       const textToCopy = this.currentAvailability.formats.markdown;
       
-      // Copy to clipboard using Electron's clipboard
-      await navigator.clipboard.writeText(textToCopy);
+      // Use Electron's IPC clipboard API for reliable copying
+      await window.electronAPI.clipboard.writeText(textToCopy);
       
       if (!silent) {
         copyBtn.innerHTML = '✅ Copied!';
@@ -266,6 +343,11 @@ class FreeBusyMainWindow {
           copyBtn.classList.remove('success');
           successMsg.style.display = 'none';
         }, 3000);
+      }
+      
+      // Auto-minimize if setting is enabled
+      if (this.currentSettings?.behavior?.minimizeAfterCopy) {
+        await window.electronAPI.window.minimize();
       }
       
     } catch (error) {

@@ -84,8 +84,7 @@ class FreeBusyApp {
         height: 480,
         resizable: true,
         titleBarStyle: 'default',
-        show: true, // Show immediately
-        alwaysOnTop: true, // Make it stay on top temporarily
+        show: true,
         webPreferences: {
           nodeIntegration: false,
           contextIsolation: true,
@@ -99,10 +98,6 @@ class FreeBusyApp {
           console.log('Main window loaded successfully');
           this.mainWindow.show();
           this.mainWindow.focus();
-          // Remove always on top after 2 seconds
-          setTimeout(() => {
-            this.mainWindow.setAlwaysOnTop(false);
-          }, 2000);
         })
         .catch(error => {
           console.error('Failed to load main window:', error);
@@ -131,7 +126,12 @@ class FreeBusyApp {
   setupIPC() {
     // Authentication handlers
     ipcMain.handle('auth:check-status', async () => {
-      return this.authManager.isAuthenticated();
+      try {
+        return await this.authManager.isAuthenticated();
+      } catch (error) {
+        console.error('Failed to check auth status:', error);
+        return false;
+      }
     });
     
     ipcMain.handle('app:is-demo-mode', async () => {
@@ -143,33 +143,110 @@ class FreeBusyApp {
         console.log('Authentication request received from renderer');
         const result = await this.authManager.authenticate();
         console.log('Authentication completed successfully');
-        return result;
+        
+        // Notify renderer of auth status change
+        if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+          this.mainWindow.webContents.send('auth-status-changed', true);
+        }
+        
+        return { success: true, result };
       } catch (error) {
         console.error('Authentication failed in main process:', error);
         console.error('Stack trace:', error.stack);
+        
+        // Notify renderer of error
+        if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+          this.mainWindow.webContents.send('error-occurred', {
+            title: 'Authentication Failed',
+            message: error.message
+          });
+        }
+        
         return { success: false, error: error.message };
       }
     });
     
     ipcMain.handle('auth:logout', async () => {
-      return this.authManager.logout();
+      try {
+        const result = await this.authManager.logout();
+        
+        // Notify renderer of auth status change
+        if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+          this.mainWindow.webContents.send('auth-status-changed', false);
+        }
+        
+        return { success: true, result };
+      } catch (error) {
+        console.error('Logout failed:', error);
+        return { success: false, error: error.message };
+      }
     });
     
     // Settings handlers
     ipcMain.handle('settings:get', async () => {
-      return this.settingsManager.getSettings();
+      try {
+        const settings = await this.settingsManager.getSettings();
+        return settings;
+      } catch (error) {
+        console.error('Failed to get settings:', error);
+        return this.settingsManager.getDefaults();
+      }
+    });
+    
+    // Onboarding handlers
+    ipcMain.handle('app:is-first-run', async () => {
+      try {
+        return this.settingsManager.isFirstRun();
+      } catch (error) {
+        console.error('Failed to check first run:', error);
+        return true;
+      }
+    });
+    
+    ipcMain.handle('app:complete-onboarding', async () => {
+      try {
+        this.settingsManager.markOnboardingCompleted();
+        return { success: true };
+      } catch (error) {
+        console.error('Failed to complete onboarding:', error);
+        return { success: false, error: error.message };
+      }
     });
     
     ipcMain.handle('settings:save', async (event, settings) => {
-      return this.settingsManager.saveSettings(settings);
+      try {
+        const result = await this.settingsManager.saveSettings(settings);
+        return { success: true, settings: result };
+      } catch (error) {
+        console.error('Failed to save settings:', error);
+        return { success: false, error: error.message };
+      }
     });
     
     // Availability generation handlers
     ipcMain.handle('availability:generate', async (event, options) => {
       try {
+        console.log('Availability generation request received:', options);
         const availability = await this.availabilityGenerator.generate(options);
+        console.log('Availability generated successfully');
+        
+        // Notify renderer of successful generation
+        if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+          this.mainWindow.webContents.send('availability-generated', availability);
+        }
+        
         return { success: true, data: availability };
       } catch (error) {
+        console.error('Availability generation failed:', error);
+        
+        // Notify renderer of error
+        if (this.mainWindow && !this.mainWindow.isDestroyed()) {
+          this.mainWindow.webContents.send('error-occurred', {
+            title: 'Generation Failed',
+            message: error.message
+          });
+        }
+        
         return { success: false, error: error.message };
       }
     });

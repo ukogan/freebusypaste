@@ -39,7 +39,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   // App info
   app: {
-    isDemoMode: () => ipcRenderer.invoke('app:is-demo-mode')
+    isDemoMode: () => ipcRenderer.invoke('app:is-demo-mode'),
+    isFirstRun: () => ipcRenderer.invoke('app:is-first-run'),
+    completeOnboarding: () => ipcRenderer.invoke('app:complete-onboarding')
   },
   
   // Event listeners

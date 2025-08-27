@@ -28,6 +28,11 @@ class SettingsManager {
         calendarRefreshIntervalMinutes: 15,
         cacheCalendarData: true
       },
+      app: {
+        firstRun: true,
+        onboardingCompleted: false,
+        setupWizardShown: false
+      },
       window: {
         position: { x: 100, y: 100 },
         size: { width: 720, height: 480 },
@@ -218,6 +223,45 @@ class SettingsManager {
       return true;
     } catch {
       return false;
+    }
+  }
+  
+  // First-run detection and onboarding methods
+  isFirstRun() {
+    try {
+      const settings = this.getSettings();
+      return settings.app?.firstRun === true;
+    } catch (error) {
+      console.error('Failed to check first run status:', error);
+      return true; // Default to first run on error
+    }
+  }
+  
+  markFirstRunCompleted() {
+    try {
+      this.setSetting('app.firstRun', false);
+      this.setSetting('app.setupWizardShown', true);
+    } catch (error) {
+      console.error('Failed to mark first run as completed:', error);
+    }
+  }
+  
+  markOnboardingCompleted() {
+    try {
+      this.setSetting('app.onboardingCompleted', true);
+      this.markFirstRunCompleted();
+    } catch (error) {
+      console.error('Failed to mark onboarding as completed:', error);
+    }
+  }
+  
+  shouldShowOnboarding() {
+    try {
+      const settings = this.getSettings();
+      return settings.app?.firstRun === true || settings.app?.onboardingCompleted !== true;
+    } catch (error) {
+      console.error('Failed to check onboarding status:', error);
+      return true; // Default to showing onboarding on error
     }
   }
   
