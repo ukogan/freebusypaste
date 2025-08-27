@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Desktop - Approach 2: Compact Option Bar</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+        
+        .mockup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .mockup-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .mockup-description {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .app-header {
+            background: #0066cc;
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+        }
+        
+        .status-bar {
+            background: #f8f9fa;
+            padding: 12px 24px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Approach 2: Compact Option Bar */
+        .options-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: #fafbfc;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .option-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #495057;
+            white-space: nowrap;
+        }
+        
+        .option-select {
+            padding: 6px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background: white;
+            font-size: 14px;
+            color: #495057;
+            cursor: pointer;
+            min-width: 120px;
+        }
+        
+        .option-select:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+        }
+        
+        .generation-section {
+            padding: 40px 24px;
+            text-align: center;
+        }
+        
+        .generate-btn {
+            width: 280px;
+            height: 48px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .generate-btn:hover {
+            background: #0052a3;
+        }
+        
+        .pros-cons {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .pros-cons h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .pros, .cons {
+            margin: 15px 0;
+        }
+        
+        .pros h4 {
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+        
+        .cons h4 {
+            color: #dc3545;
+            margin-bottom: 8px;
+        }
+        
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <div class="mockup-title">Approach 2: Compact Option Bar</div>
+        <div class="mockup-description">Professional toolbar approach with dropdowns</div>
+    </div>
+
+    <div class="app-container">
+        <div class="app-header">
+            FreeBusy Desktop
+        </div>
+        
+        <div class="status-bar">
+            Connected to Google Calendar • Next 3 business days
+        </div>
+        
+        <div class="options-toolbar">
+            <div class="option-group">
+                <label for="meetingLength">Meeting length:</label>
+                <select id="meetingLength" class="option-select">
+                    <option value="15">15 minutes</option>
+                    <option value="30" selected>30 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="60">60 minutes</option>
+                </select>
+            </div>
+            
+            <div class="option-group">
+                <label for="dateRange">Date range:</label>
+                <select id="dateRange" class="option-select">
+                    <option value="2">2 days</option>
+                    <option value="3" selected>3 days</option>
+                    <option value="5">5 days</option>
+                    <option value="7">7 days</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="generation-section">
+            <button class="generate-btn">
+                🔍 Find my availability
+            </button>
+        </div>
+    </div>
+    
+    <div class="pros-cons">
+        <h3>Approach 2 Analysis</h3>
+        
+        <div class="pros">
+            <h4>✅ Benefits</h4>
+            <ul>
+                <li>Compact, professional appearance</li>
+                <li>Dropdowns save horizontal space</li>
+                <li>Clear visual hierarchy maintained</li>
+                <li>Feels integrated with existing interface</li>
+                <li>Familiar toolbar UI pattern</li>
+                <li>Less visual clutter around main action</li>
+            </ul>
+        </div>
+        
+        <div class="cons">
+            <h4>⚠️ Considerations</h4>
+            <ul>
+                <li>Options are above primary focus area</li>
+                <li>Dropdowns require click to see all choices</li>
+                <li>May not be immediately discoverable</li>
+                <li>Adds another horizontal band to the interface</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

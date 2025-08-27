@@ -32,7 +32,6 @@ class FreeBusyMainWindow {
     
     // Clipboard actions
     document.getElementById('copyBtn').addEventListener('click', () => this.copyToClipboard());
-    document.getElementById('saveBtn').addEventListener('click', () => this.saveToFile());
     
     // Settings
     document.getElementById('settingsBtn').addEventListener('click', () => this.openSettings());
@@ -54,6 +53,13 @@ class FreeBusyMainWindow {
     
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+    
+    // Option card buttons
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('card-button')) {
+        this.handleOptionButtonClick(e.target);
+      }
+    });
   }
   
   setupElectronListeners() {
@@ -261,12 +267,34 @@ class FreeBusyMainWindow {
   }
   
   getGenerationOptions() {
-    if (!this.currentSettings) return {};
+    const options = {};
     
-    return {
-      ...this.currentSettings.personal,
-      ...this.currentSettings.schedule
-    };
+    if (this.currentSettings) {
+      // Get base options from settings
+      options.email = this.currentSettings.personal?.email || '';
+      options.meetingTitle = this.currentSettings.personal?.meetingTitle || 'Meeting';
+      options.zoomLink = this.currentSettings.personal?.zoomLink || '';
+      options.businessHoursStart = this.currentSettings.schedule?.businessHoursStart || 9;
+      options.businessHoursEnd = this.currentSettings.schedule?.businessHoursEnd || 17;
+    }
+    
+    // Override with UI selections
+    const selectedDuration = document.querySelector('[class*="duration-"].selected');
+    const selectedDays = document.querySelector('[class*="days-"].selected');
+    
+    if (selectedDuration) {
+      options.meetingDurationMinutes = parseInt(selectedDuration.dataset.value);
+    } else {
+      options.meetingDurationMinutes = 30; // Default
+    }
+    
+    if (selectedDays) {
+      options.dateRangeDays = parseInt(selectedDays.dataset.value);
+    } else {
+      options.dateRangeDays = 3; // Default
+    }
+    
+    return options;
   }
   
   displayAvailability(availability) {
@@ -282,10 +310,15 @@ class FreeBusyMainWindow {
     });
     html += '</tr></thead><tbody>';
     
-    // Get all unique times
+    // Get all unique times and sort them chronologically
     const allTimes = [...new Set(availability.availability.flatMap(day => 
       day.slots.map(slot => slot.timeFormatted)
-    ))].sort();
+    ))].sort((a, b) => {
+      // Convert to 24-hour format for proper sorting
+      const timeA = this.parseTimeForSort(a);
+      const timeB = this.parseTimeForSort(b);
+      return timeA - timeB;
+    });
     
     // Create rows
     allTimes.forEach(time => {
@@ -357,10 +390,20 @@ class FreeBusyMainWindow {
       }
     }
   }
-  
-  saveToFile() {
-    // TODO: Implement file save dialog
-    this.showError('Not Implemented', 'File saving will be implemented in a future update');
+
+  parseTimeForSort(timeStr) {
+    // Convert "10 AM" or "2:30 PM" to 24-hour format for sorting
+    const [time, period] = timeStr.split(' ');
+    const [hour, minute = 0] = time.split(':').map(Number);
+    let hour24 = hour;
+    
+    if (period === 'PM' && hour !== 12) {
+      hour24 += 12;
+    } else if (period === 'AM' && hour === 12) {
+      hour24 = 0;
+    }
+    
+    return hour24 * 60 + minute; // Return total minutes for sorting
   }
   
   openSettings() {
@@ -470,6 +513,18 @@ class FreeBusyMainWindow {
     }
   }
   
+  handleOptionButtonClick(button) {
+    // Remove selected class from siblings in the same card
+    const cardButtons = button.parentNode;
+    const siblings = cardButtons.children;
+    for (let sibling of siblings) {
+      sibling.classList.remove('selected');
+    }
+    
+    // Add selected class to clicked button
+    button.classList.add('selected');
+  }
+
   handleKeyboard(e) {
     // Cmd+G or Ctrl+G for generate
     if ((e.metaKey || e.ctrlKey) && e.key === 'g') {

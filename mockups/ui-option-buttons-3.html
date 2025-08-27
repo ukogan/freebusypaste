@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Desktop - Button Approach 3: Card-Style Options</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+        
+        .mockup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .mockup-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .mockup-description {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .app-header {
+            background: #0066cc;
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+        }
+        
+        .generation-section {
+            padding: 40px 24px;
+            text-align: center;
+        }
+        
+        /* Button Approach 3: Card-Style Options */
+        .options-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .option-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 16px;
+            min-width: 160px;
+            transition: all 0.2s ease;
+        }
+        
+        .option-card:hover {
+            border-color: #0066cc;
+            box-shadow: 0 4px 8px rgba(0, 102, 204, 0.1);
+        }
+        
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .card-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .card-button {
+            padding: 10px 8px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+            color: #495057;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        
+        .card-button:hover {
+            border-color: #0066cc;
+            background: #f8f9fa;
+        }
+        
+        .card-button.selected {
+            border-color: #0066cc;
+            background: #0066cc;
+            color: white;
+        }
+        
+        .generate-btn {
+            width: 280px;
+            height: 48px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .generate-btn:hover {
+            background: #0052a3;
+        }
+        
+        .pros-cons {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .pros-cons h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .pros, .cons {
+            margin: 15px 0;
+        }
+        
+        .pros h4 {
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+        
+        .cons h4 {
+            color: #dc3545;
+            margin-bottom: 8px;
+        }
+        
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <div class="mockup-title">Button Approach 3: Card-Style Options</div>
+        <div class="mockup-description">Organized cards with grouped button options</div>
+    </div>
+
+    <div class="app-container">
+        <div class="app-header">
+            FreeBusy Desktop
+        </div>
+        
+        <div class="generation-section">
+            <div class="options-cards">
+                <div class="option-card">
+                    <div class="card-title">Meeting Length</div>
+                    <div class="card-buttons">
+                        <button class="card-button" data-value="15">15 min</button>
+                        <button class="card-button selected" data-value="30">30 min</button>
+                        <button class="card-button" data-value="45">45 min</button>
+                        <button class="card-button" data-value="60">60 min</button>
+                    </div>
+                </div>
+                
+                <div class="option-card">
+                    <div class="card-title">Date Range</div>
+                    <div class="card-buttons">
+                        <button class="card-button" data-value="2">2 days</button>
+                        <button class="card-button selected" data-value="3">3 days</button>
+                        <button class="card-button" data-value="5">5 days</button>
+                        <button class="card-button" data-value="7">7 days</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="generate-btn">
+                🔍 Find my availability
+            </button>
+        </div>
+    </div>
+    
+    <div class="pros-cons">
+        <h3>Button Approach 3 Analysis</h3>
+        
+        <div class="pros">
+            <h4>✅ Benefits</h4>
+            <ul>
+                <li>Very clear organization and grouping</li>
+                <li>Professional card-based design</li>
+                <li>Good visual hierarchy</li>
+                <li>Options feel substantial and important</li>
+                <li>Clear button targets</li>
+                <li>Easy to scan and understand</li>
+            </ul>
+        </div>
+        
+        <div class="cons">
+            <h4>⚠️ Considerations</h4>
+            <ul>
+                <li>Takes the most horizontal space</li>
+                <li>May stack on smaller screens</li>
+                <li>More complex visual design</li>
+                <li>Cards may feel heavy for simple options</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Handle button selections
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('card-button')) {
+                // Remove selected from siblings in the same card
+                const cardButtons = e.target.parentNode;
+                const siblings = cardButtons.children;
+                for (let sibling of siblings) {
+                    sibling.classList.remove('selected');
+                }
+                // Add selected to clicked button
+                e.target.classList.add('selected');
+            }
+        });
+    </script>
+</body>
+</html>

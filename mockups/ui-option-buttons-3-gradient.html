@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Desktop - Button Approach 3: Card-Style with Gradient</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+        
+        .mockup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .mockup-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .mockup-description {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .app-header {
+            background: #0066cc;
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+        }
+        
+        .generation-section {
+            padding: 40px 24px;
+            text-align: center;
+        }
+        
+        /* Button Approach 3: Card-Style Options with Gradient */
+        .options-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .option-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 16px;
+            min-width: 160px;
+            transition: all 0.2s ease;
+        }
+        
+        .option-card:hover {
+            border-color: #0066cc;
+            box-shadow: 0 4px 8px rgba(0, 102, 204, 0.1);
+        }
+        
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .card-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        /* Duration gradient: light blue to darker blue */
+        .duration-15 {
+            background: #e3f2fd;
+            border-color: #bbdefb;
+            color: #0d47a1;
+        }
+        
+        .duration-30 {
+            background: #bbdefb;
+            border-color: #90caf9;
+            color: #0d47a1;
+        }
+        
+        .duration-45 {
+            background: #90caf9;
+            border-color: #64b5f6;
+            color: #0d47a1;
+        }
+        
+        .duration-60 {
+            background: #64b5f6;
+            border-color: #42a5f5;
+            color: #0d47a1;
+        }
+        
+        /* Days gradient: light blue to darker blue (different range) */
+        .days-2 {
+            background: #f3e5f5;
+            border-color: #ce93d8;
+            color: #4a148c;
+        }
+        
+        .days-3 {
+            background: #e1bee7;
+            border-color: #ba68c8;
+            color: #4a148c;
+        }
+        
+        .days-5 {
+            background: #ce93d8;
+            border-color: #ab47bc;
+            color: #4a148c;
+        }
+        
+        .days-7 {
+            background: #ba68c8;
+            border-color: #9c27b0;
+            color: #4a148c;
+        }
+        
+        .card-button {
+            padding: 10px 8px;
+            border: 2px solid;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        
+        .card-button:focus {
+            outline: none;
+            border: 3px solid #0066cc;
+            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+        }
+        
+        .card-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-button.selected {
+            border: 3px solid #0066cc !important;
+            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2), 0 2px 8px rgba(0, 102, 204, 0.3);
+            font-weight: 600;
+        }
+        
+        .generate-btn {
+            width: 280px;
+            height: 48px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .generate-btn:hover {
+            background: #0052a3;
+        }
+        
+        .pros-cons {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .pros-cons h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .pros, .cons {
+            margin: 15px 0;
+        }
+        
+        .pros h4 {
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+        
+        .cons h4 {
+            color: #dc3545;
+            margin-bottom: 8px;
+        }
+        
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .gradient-note {
+            margin-top: 16px;
+            padding: 12px;
+            background: #e3f2fd;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #1565c0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <div class="mockup-title">Button Approach 3: Card-Style with Blue Gradients</div>
+        <div class="mockup-description">Cohesive blue palette with visual progression from light to dark values</div>
+    </div>
+
+    <div class="app-container">
+        <div class="app-header">
+            FreeBusy Desktop
+        </div>
+        
+        <div class="generation-section">
+            <div class="options-cards">
+                <div class="option-card">
+                    <div class="card-title">Meeting Length</div>
+                    <div class="card-buttons">
+                        <button class="card-button duration-15" data-value="15">15 min</button>
+                        <button class="card-button duration-30 selected" data-value="30">30 min</button>
+                        <button class="card-button duration-45" data-value="45">45 min</button>
+                        <button class="card-button duration-60" data-value="60">60 min</button>
+                    </div>
+                </div>
+                
+                <div class="option-card">
+                    <div class="card-title">Date Range</div>
+                    <div class="card-buttons">
+                        <button class="card-button days-2" data-value="2">2 days</button>
+                        <button class="card-button days-3 selected" data-value="3">3 days</button>
+                        <button class="card-button days-5" data-value="5">5 days</button>
+                        <button class="card-button days-7" data-value="7">7 days</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="generate-btn">
+                🔍 Find my availability
+            </button>
+        </div>
+    </div>
+    
+    <div class="gradient-note">
+        🎨 Both option types use blue palettes with light-to-dark progression for cohesive visual guidance!
+    </div>
+    
+    <div class="pros-cons">
+        <h3>Button Approach 3 with Gradient Analysis</h3>
+        
+        <div class="pros">
+            <h4>✅ Benefits</h4>
+            <ul>
+                <li>Visual gradient guides users intuitively</li>
+                <li>Light-to-dark progression shows value scale</li>
+                <li>Professional card-based organization</li>
+                <li>Clear button targets and grouping</li>
+                <li>Subtle but effective UX enhancement</li>
+                <li>Different color families per option type</li>
+                <li>Still works with colorblind users (text is clear)</li>
+            </ul>
+        </div>
+        
+        <div class="cons">
+            <h4>⚠️ Considerations</h4>
+            <ul>
+                <li>More complex color system to maintain</li>
+                <li>May need accessibility testing</li>
+                <li>Could be distracting if overused</li>
+                <li>Selected state overrides gradient</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Handle button selections
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('card-button')) {
+                // Remove selected from siblings in the same card
+                const cardButtons = e.target.parentNode;
+                const siblings = cardButtons.children;
+                for (let sibling of siblings) {
+                    sibling.classList.remove('selected');
+                }
+                // Add selected to clicked button
+                e.target.classList.add('selected');
+            }
+        });
+    </script>
+</body>
+</html>

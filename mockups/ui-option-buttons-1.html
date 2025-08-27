@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Desktop - Button Approach 1: Stacked Rows</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+        
+        .mockup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .mockup-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .mockup-description {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .app-header {
+            background: #0066cc;
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+        }
+        
+        .generation-section {
+            padding: 40px 24px;
+            text-align: center;
+        }
+        
+        /* Button Approach 1: Stacked Rows */
+        .options-container {
+            margin-bottom: 32px;
+        }
+        
+        .option-group {
+            margin-bottom: 20px;
+        }
+        
+        .option-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .option-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 12px;
+            text-align: left;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .option-button {
+            padding: 8px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            background: white;
+            color: #495057;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 80px;
+        }
+        
+        .option-button:hover {
+            border-color: #0066cc;
+            background: #f8f9fa;
+        }
+        
+        .option-button.selected {
+            border-color: #0066cc;
+            background: #0066cc;
+            color: white;
+        }
+        
+        .generate-btn {
+            width: 280px;
+            height: 48px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .generate-btn:hover {
+            background: #0052a3;
+        }
+        
+        .pros-cons {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .pros-cons h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .pros, .cons {
+            margin: 15px 0;
+        }
+        
+        .pros h4 {
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+        
+        .cons h4 {
+            color: #dc3545;
+            margin-bottom: 8px;
+        }
+        
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <div class="mockup-title">Button Approach 1: Stacked Rows</div>
+        <div class="mockup-description">Clear labels with button groups in rows</div>
+    </div>
+
+    <div class="app-container">
+        <div class="app-header">
+            FreeBusy Desktop
+        </div>
+        
+        <div class="generation-section">
+            <div class="options-container">
+                <div class="option-group">
+                    <div class="option-label">Meeting length:</div>
+                    <div class="button-row">
+                        <button class="option-button" data-value="15">15 min</button>
+                        <button class="option-button selected" data-value="30">30 min</button>
+                        <button class="option-button" data-value="45">45 min</button>
+                        <button class="option-button" data-value="60">60 min</button>
+                    </div>
+                </div>
+                
+                <div class="option-group">
+                    <div class="option-label">Date range:</div>
+                    <div class="button-row">
+                        <button class="option-button" data-value="2">2 days</button>
+                        <button class="option-button selected" data-value="3">3 days</button>
+                        <button class="option-button" data-value="5">5 days</button>
+                        <button class="option-button" data-value="7">7 days</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="generate-btn">
+                🔍 Find my availability
+            </button>
+        </div>
+    </div>
+    
+    <div class="pros-cons">
+        <h3>Button Approach 1 Analysis</h3>
+        
+        <div class="pros">
+            <h4>✅ Benefits</h4>
+            <ul>
+                <li>Very clear what each button does</li>
+                <li>All options visible at once</li>
+                <li>Easy to understand selected state</li>
+                <li>Clean, organized layout</li>
+                <li>Good touch/click targets</li>
+                <li>Labels make purpose obvious</li>
+            </ul>
+        </div>
+        
+        <div class="cons">
+            <h4>⚠️ Considerations</h4>
+            <ul>
+                <li>Takes more vertical space</li>
+                <li>More visual elements above main action</li>
+                <li>May feel like too many buttons</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Handle button selections
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('option-button')) {
+                // Remove selected from siblings in the same row
+                const buttonRow = e.target.parentNode;
+                const siblings = buttonRow.children;
+                for (let sibling of siblings) {
+                    sibling.classList.remove('selected');
+                }
+                // Add selected to clicked button
+                e.target.classList.add('selected');
+            }
+        });
+    </script>
+</body>
+</html>

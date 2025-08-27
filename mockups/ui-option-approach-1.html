@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Desktop - Approach 1: Inline Controls</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+        
+        .mockup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .mockup-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .mockup-description {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .app-header {
+            background: #0066cc;
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+        }
+        
+        .generation-section {
+            padding: 40px 24px;
+            text-align: center;
+        }
+        
+        /* Approach 1: Inline Controls Above Generate Button */
+        .inline-options {
+            margin-bottom: 32px;
+        }
+        
+        .option-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .option-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .option-row label {
+            font-weight: 500;
+            color: #333;
+            margin-right: 8px;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        
+        .radio-option input[type="radio"] {
+            margin: 0;
+        }
+        
+        .radio-option label {
+            font-weight: normal;
+            cursor: pointer;
+            margin: 0;
+        }
+        
+        .generate-btn {
+            width: 280px;
+            height: 48px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .generate-btn:hover {
+            background: #0052a3;
+        }
+        
+        .pros-cons {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .pros-cons h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .pros, .cons {
+            margin: 15px 0;
+        }
+        
+        .pros h4 {
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+        
+        .cons h4 {
+            color: #dc3545;
+            margin-bottom: 8px;
+        }
+        
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <div class="mockup-title">Approach 1: Inline Controls Above Generate Button</div>
+        <div class="mockup-description">Minimal addition, keeps single-screen workflow</div>
+    </div>
+
+    <div class="app-container">
+        <div class="app-header">
+            FreeBusy Desktop
+        </div>
+        
+        <div class="generation-section">
+            <div class="inline-options">
+                <div class="option-row">
+                    <label>Meeting length:</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="duration" id="dur15" value="15">
+                            <label for="dur15">15 min</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="duration" id="dur30" value="30" checked>
+                            <label for="dur30">30 min</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="duration" id="dur45" value="45">
+                            <label for="dur45">45 min</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="duration" id="dur60" value="60">
+                            <label for="dur60">60 min</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="option-row">
+                    <label>Date range:</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="range" id="days2" value="2">
+                            <label for="days2">2 days</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="range" id="days3" value="3" checked>
+                            <label for="days3">3 days</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="range" id="days5" value="5">
+                            <label for="days5">5 days</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="range" id="days7" value="7">
+                            <label for="days7">7 days</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="generate-btn">
+                🔍 Find my availability
+            </button>
+        </div>
+    </div>
+    
+    <div class="pros-cons">
+        <h3>Approach 1 Analysis</h3>
+        
+        <div class="pros">
+            <h4>✅ Benefits</h4>
+            <ul>
+                <li>Maintains one-click generation workflow</li>
+                <li>Options are immediately visible</li>
+                <li>Clean, predictable layout</li>
+                <li>Follows desktop app conventions</li>
+                <li>All options visible without clicking</li>
+            </ul>
+        </div>
+        
+        <div class="cons">
+            <h4>⚠️ Considerations</h4>
+            <ul>
+                <li>Takes up more vertical space</li>
+                <li>Radio buttons use significant horizontal space</li>
+                <li>May feel cramped on smaller windows</li>
+                <li>More visual clutter above the primary action</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

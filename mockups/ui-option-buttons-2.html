@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Desktop - Button Approach 2: Compact Pill Bar</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+        
+        .mockup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .mockup-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .mockup-description {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .app-header {
+            background: #0066cc;
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+        }
+        
+        .generation-section {
+            padding: 40px 24px;
+            text-align: center;
+        }
+        
+        /* Button Approach 2: Compact Pill Bar */
+        .options-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 32px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .pill-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .pill-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #495057;
+            white-space: nowrap;
+        }
+        
+        .pill-buttons {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .pill-button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 16px;
+            background: #e9ecef;
+            color: #495057;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 45px;
+        }
+        
+        .pill-button:hover {
+            background: #dee2e6;
+        }
+        
+        .pill-button.selected {
+            background: #0066cc;
+            color: white;
+        }
+        
+        .generate-btn {
+            width: 280px;
+            height: 48px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .generate-btn:hover {
+            background: #0052a3;
+        }
+        
+        .pros-cons {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .pros-cons h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .pros, .cons {
+            margin: 15px 0;
+        }
+        
+        .pros h4 {
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+        
+        .cons h4 {
+            color: #dc3545;
+            margin-bottom: 8px;
+        }
+        
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-header">
+        <div class="mockup-title">Button Approach 2: Compact Pill Bar</div>
+        <div class="mockup-description">Modern pill buttons in horizontal toolbar</div>
+    </div>
+
+    <div class="app-container">
+        <div class="app-header">
+            FreeBusy Desktop
+        </div>
+        
+        <div class="generation-section">
+            <div class="options-bar">
+                <div class="pill-group">
+                    <span class="pill-label">Duration:</span>
+                    <div class="pill-buttons">
+                        <button class="pill-button" data-value="15">15m</button>
+                        <button class="pill-button selected" data-value="30">30m</button>
+                        <button class="pill-button" data-value="45">45m</button>
+                        <button class="pill-button" data-value="60">60m</button>
+                    </div>
+                </div>
+                
+                <div class="pill-group">
+                    <span class="pill-label">Days:</span>
+                    <div class="pill-buttons">
+                        <button class="pill-button" data-value="2">2</button>
+                        <button class="pill-button selected" data-value="3">3</button>
+                        <button class="pill-button" data-value="5">5</button>
+                        <button class="pill-button" data-value="7">7</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="generate-btn">
+                🔍 Find my availability
+            </button>
+        </div>
+    </div>
+    
+    <div class="pros-cons">
+        <h3>Button Approach 2 Analysis</h3>
+        
+        <div class="pros">
+            <h4>✅ Benefits</h4>
+            <ul>
+                <li>Very compact, space-efficient design</li>
+                <li>Modern pill button aesthetic</li>
+                <li>All options visible and clickable</li>
+                <li>Clean horizontal layout</li>
+                <li>Professional appearance</li>
+                <li>Quick to scan and use</li>
+            </ul>
+        </div>
+        
+        <div class="cons">
+            <h4>⚠️ Considerations</h4>
+            <ul>
+                <li>Abbreviated labels (15m vs 15 min)</li>
+                <li>Smaller click targets</li>
+                <li>May wrap on very narrow screens</li>
+                <li>Less explicit about what each option does</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Handle button selections
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('pill-button')) {
+                // Remove selected from siblings in the same group
+                const buttonGroup = e.target.parentNode;
+                const siblings = buttonGroup.children;
+                for (let sibling of siblings) {
+                    sibling.classList.remove('selected');
+                }
+                // Add selected to clicked button
+                e.target.classList.add('selected');
+            }
+        });
+    </script>
+</body>
+</html>

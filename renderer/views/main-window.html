@@ -38,6 +38,28 @@
             <!-- Generation Section (shown when authenticated) -->
             <div class="generation-section" id="generationSection" style="display: none;">
                 <div class="generation-content">
+                    <div class="options-cards">
+                        <div class="option-card">
+                            <div class="card-title">Meeting Length</div>
+                            <div class="card-buttons">
+                                <button class="card-button duration-15" data-value="15">15 min</button>
+                                <button class="card-button duration-30 selected" data-value="30">30 min</button>
+                                <button class="card-button duration-45" data-value="45">45 min</button>
+                                <button class="card-button duration-60" data-value="60">60 min</button>
+                            </div>
+                        </div>
+                        
+                        <div class="option-card">
+                            <div class="card-title">Date Range</div>
+                            <div class="card-buttons">
+                                <button class="card-button days-2" data-value="2">2 days</button>
+                                <button class="card-button days-3 selected" data-value="3">3 days</button>
+                                <button class="card-button days-5" data-value="5">5 days</button>
+                                <button class="card-button days-7" data-value="7">7 days</button>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <button class="generate-btn" id="generateBtn">
                         🔍 Find my availability
                     </button>
@@ -49,9 +71,6 @@
                 <div class="copy-actions">
                     <button class="copy-btn" id="copyBtn">
                         📋 Copy to clipboard
-                    </button>
-                    <button class="copy-btn" id="saveBtn">
-                        💾 Save to file
                     </button>
                 </div>
 
