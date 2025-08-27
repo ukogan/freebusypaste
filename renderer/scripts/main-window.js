@@ -327,11 +327,11 @@ class FreeBusyMainWindow {
     const originalText = copyBtn.textContent;
     
     try {
-      // Use the markdown format for clipboard
-      const textToCopy = this.currentAvailability.formats.markdown;
+      // Use the HTML format for email-friendly copying
+      const htmlToCopy = this.currentAvailability.formats.html;
       
-      // Use Electron's IPC clipboard API for reliable copying
-      await window.electronAPI.clipboard.writeText(textToCopy);
+      // Use Electron's HTML clipboard API for proper email formatting
+      await window.electronAPI.clipboard.writeHTML(htmlToCopy);
       
       if (!silent) {
         copyBtn.innerHTML = '✅ Copied!';

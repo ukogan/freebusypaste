@@ -7,6 +7,7 @@ Automatically fetches your calendar and generates a meeting availability table
 import os
 import datetime
 import json
+import urllib.parse
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -65,9 +66,10 @@ For detailed instructions: https://developers.google.com/calendar/api/quickstart
     return build('calendar', 'v3', credentials=creds)
 
 def get_next_working_days(num_days=3):
-    """Get next N working days (skip weekends)"""
+    """Get next N working days (skip weekends), starting from tomorrow"""
     working_days = []
-    current_date = datetime.date.today()
+    # Start from tomorrow instead of today
+    current_date = datetime.date.today() + datetime.timedelta(days=1)
     
     while len(working_days) < num_days:
         # Skip weekends (Monday=0, Sunday=6)
@@ -166,7 +168,8 @@ def create_calendar_link(start_time, end_time, email, zoom_link):
         'add': email
     }
     
-    query_string = '&'.join([f'{k}={v.replace(" ", "%20").replace(":", "%3A").replace("/", "%2F").replace("?", "%3F").replace("=", "%3D").replace("&", "%26")}' for k, v in params.items()])
+    # Proper URL encoding for all parameters
+    query_string = '&'.join([f'{k}={urllib.parse.quote(str(v))}' for k, v in params.items()])
     return f'{base_url}?{query_string}'
 
 def generate_30min_slots(free_slots):
@@ -234,13 +237,13 @@ def generate_markdown_table(availability, time_slots, working_days):
                     YOUR_EMAIL, 
                     ZOOM_LINK
                 )
-                markdown += f" [**BOOK**]({link}) |"
+                markdown += f" [book]({link}) |"
             else:
                 markdown += " — |"
         
         markdown += "\n"
     
-    markdown += "\n**Click any BOOK link to schedule that 30-minute slot.**"
+    markdown += "\n**Click any 'book' link to schedule that 30-minute slot.**"
     
     return markdown
 

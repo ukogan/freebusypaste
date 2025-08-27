@@ -283,6 +283,11 @@ class FreeBusyApp {
       const { clipboard } = require('electron');
       clipboard.writeText(text);
     });
+
+    ipcMain.handle('clipboard:write-html', (event, html) => {
+      const { clipboard } = require('electron');
+      clipboard.writeHTML(html);
+    });
     
     ipcMain.handle('clipboard:read-text', () => {
       const { clipboard } = require('electron');

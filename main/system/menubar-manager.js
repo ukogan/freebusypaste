@@ -109,7 +109,7 @@ class MenuBarManager {
       
       // Copy to clipboard automatically if enabled
       if (settings.behavior.autoCopyToClipboard) {
-        await this.copyToClipboard(result.formats.markdown);
+        await this.copyToClipboard(result.formats.html);
       }
       
       // Show notification
@@ -148,7 +148,7 @@ class MenuBarManager {
     }
     
     try {
-      await this.copyToClipboard(this.lastGenerationResult.formats.markdown);
+      await this.copyToClipboard(this.lastGenerationResult.formats.html);
       this.showNotification('Copied', 'Previous availability copied to clipboard');
     } catch (error) {
       console.error('Copy failed:', error);
@@ -156,9 +156,9 @@ class MenuBarManager {
     }
   }
   
-  async copyToClipboard(text) {
+  async copyToClipboard(html) {
     const { clipboard } = require('electron');
-    clipboard.writeText(text);
+    clipboard.writeHTML(html);
   }
   
   toggleMainWindow() {

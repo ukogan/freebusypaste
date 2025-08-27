@@ -74,6 +74,7 @@ class AvailabilityGenerator {
   
   calculateDateRange(days, includeWeekends) {
     const start = new Date();
+    start.setDate(start.getDate() + 1); // Start from tomorrow
     start.setHours(0, 0, 0, 0);
     
     const dates = [];
@@ -208,10 +209,15 @@ class AvailabilityGenerator {
     });
     markdown += `\n`;
     
-    // Get all unique times
+    // Get all unique times and sort them chronologically
     const allTimes = [...new Set(availability.flatMap(day => 
       day.slots.map(slot => slot.timeFormatted)
-    ))].sort();
+    ))].sort((a, b) => {
+      // Convert to 24-hour format for proper sorting
+      const timeA = this.parseTimeForSort(a);
+      const timeB = this.parseTimeForSort(b);
+      return timeA - timeB;
+    });
     
     // Create rows
     allTimes.forEach(time => {
@@ -219,7 +225,8 @@ class AvailabilityGenerator {
       availability.forEach(day => {
         const slot = day.slots.find(s => s.timeFormatted === time);
         if (slot && slot.available) {
-          markdown += ` AVAILABLE |`;
+          const link = this.createCalendarLink(slot, settings);
+          markdown += ` [book](${link}) |`;
         } else {
           markdown += ` — |`;
         }
@@ -250,10 +257,15 @@ class AvailabilityGenerator {
     });
     html += `      </tr>\n    </thead>\n    <tbody>\n`;
     
-    // Get all unique times
+    // Get all unique times and sort them chronologically
     const allTimes = [...new Set(availability.flatMap(day => 
       day.slots.map(slot => slot.timeFormatted)
-    ))].sort();
+    ))].sort((a, b) => {
+      // Convert to 24-hour format for proper sorting
+      const timeA = this.parseTimeForSort(a);
+      const timeB = this.parseTimeForSort(b);
+      return timeA - timeB;
+    });
     
     // Create rows
     allTimes.forEach(time => {
@@ -261,7 +273,8 @@ class AvailabilityGenerator {
       availability.forEach(day => {
         const slot = day.slots.find(s => s.timeFormatted === time);
         if (slot && slot.available) {
-          html += `        <td><span class="available">AVAILABLE</span></td>\n`;
+          const link = this.createCalendarLink(slot, settings);
+          html += `        <td><a href="${link}" style="color: #007AFF; text-decoration: none; font-weight: bold;">book</a></td>\n`;
         } else {
           html += `        <td><span class="unavailable">—</span></td>\n`;
         }
@@ -301,6 +314,68 @@ class AvailabilityGenerator {
   
   formatTime(hour, minute = 0) {
     return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+  }
+
+  parseTimeForSort(timeStr) {
+    // Convert "10 AM" or "2:30 PM" to 24-hour format for sorting
+    const [time, period] = timeStr.split(' ');
+    const [hour, minute = 0] = time.split(':').map(Number);
+    let hour24 = hour;
+    
+    if (period === 'PM' && hour !== 12) {
+      hour24 += 12;
+    } else if (period === 'AM' && hour === 12) {
+      hour24 = 0;
+    }
+    
+    return hour24 * 60 + minute; // Return total minutes for sorting
+  }
+
+  createCalendarLink(slot, settings) {
+    // Parse the time formatted display to get local hour/minute
+    const [time, period] = slot.timeFormatted.split(' ');
+    const [hourStr, minuteStr = '0'] = time.split(':');
+    let hour = parseInt(hourStr);
+    const minute = parseInt(minuteStr);
+    
+    // Convert to 24-hour format
+    if (period === 'PM' && hour !== 12) {
+      hour += 12;
+    } else if (period === 'AM' && hour === 12) {
+      hour = 0;
+    }
+    
+    // Create date in user's timezone
+    const slotDate = new Date(slot.start);
+    const startTime = new Date(slotDate);
+    startTime.setHours(hour, minute, 0, 0);
+    
+    const endTime = new Date(startTime);
+    endTime.setMinutes(endTime.getMinutes() + settings.meetingDurationMinutes);
+    
+    // Format for Google Calendar (in user's local timezone)
+    const formatForCalendar = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${year}${month}${day}T${hours}${minutes}${seconds}`;
+    };
+    
+    const startStr = formatForCalendar(startTime);
+    const endStr = formatForCalendar(endTime);
+    
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: settings.meetingTitle,
+      dates: `${startStr}/${endStr}`,
+      details: settings.zoomLink ? `Zoom: ${settings.zoomLink}` : '',
+      add: settings.email || ''
+    });
+    
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
   }
   
   formatTimeForDisplay(hour, minute = 0) {
