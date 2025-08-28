@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, Tray, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, Menu, Tray, ipcMain, shell, dialog } = require('electron');
 const path = require('path');
 const { default: Store } = require('electron-store');
 
@@ -138,8 +138,55 @@ class FreeBusyApp {
       return this.isDemoMode;
     });
     
+    // Credentials handlers
+    ipcMain.handle('credentials:has-valid', async () => {
+      return this.authManager.hasValidCredentials;
+    });
+    
+    ipcMain.handle('credentials:upload-file', async () => {
+      try {
+        const result = await dialog.showOpenDialog(this.mainWindow, {
+          title: 'Select Google OAuth2 Credentials File',
+          filters: [
+            { name: 'JSON Files', extensions: ['json'] },
+            { name: 'All Files', extensions: ['*'] }
+          ],
+          properties: ['openFile']
+        });
+        
+        if (result.canceled) {
+          return { success: false, error: 'Upload cancelled' };
+        }
+        
+        const fs = require('fs');
+        const credentialsData = fs.readFileSync(result.filePaths[0], 'utf8');
+        
+        const uploadResult = await this.authManager.uploadCredentials(credentialsData);
+        
+        // If credentials were uploaded successfully, notify renderer
+        if (uploadResult.success && this.mainWindow && !this.mainWindow.isDestroyed()) {
+          this.mainWindow.webContents.send('credentials-updated', true);
+        }
+        
+        return uploadResult;
+        
+      } catch (error) {
+        console.error('Failed to upload credentials:', error);
+        return { success: false, error: error.message };
+      }
+    });
+    
     ipcMain.handle('auth:login', async () => {
       try {
+        // Check if we have valid credentials first
+        if (!this.authManager.hasValidCredentials) {
+          return { 
+            success: false, 
+            error: 'No valid credentials found. Please upload your Google OAuth2 credentials first.',
+            requiresCredentials: true
+          };
+        }
+        
         console.log('Authentication request received from renderer');
         const result = await this.authManager.authenticate();
         console.log('Authentication completed successfully');

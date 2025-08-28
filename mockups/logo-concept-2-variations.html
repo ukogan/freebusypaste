@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Desktop - Logo Concept 2: Flowing Time Blocks - 5 Variations</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: #f5f6fa;
+            color: #333;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #3498db;
+        }
+        
+        .header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .variations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .variation-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .variation-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #2c3e50;
+        }
+        
+        .variation-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        
+        .logo-sizes {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-bottom: 32px;
+            padding: 24px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .logo-size {
+            text-align: center;
+        }
+        
+        .logo-size-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        /* Logo Base Styles */
+        .logo-base {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .logo-64 { width: 64px; height: 64px; }
+        .logo-32 { width: 32px; height: 32px; }
+        .logo-16 { width: 16px; height: 16px; }
+        
+        .wordmark {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 500;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        
+        /* Base Flowing Time Blocks */
+        .logo-flowing {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 1px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-flowing .block {
+            border-radius: 3px;
+        }
+        
+        .logo-flowing .block.empty {
+            background: #ecf0f1;
+        }
+        
+        /* Variation A: Original Diagonal Flow */
+        .logo-variation-a .block {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+        }
+        
+        /* Variation B: Vertical River Flow */
+        .logo-variation-b .block {
+            background: linear-gradient(180deg, #3498db, #2980b9);
+        }
+        
+        /* Variation C: S-Curve Flow */
+        .logo-variation-c .block {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+        
+        /* Variation D: Center Outward Flow */
+        .logo-variation-d .block {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        /* Variation E: Dual Stream Flow */
+        .logo-variation-e .block.stream-1 {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+        }
+        
+        .logo-variation-e .block.stream-2 {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .variations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-sizes {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+        
+        /* Animation for demo */
+        @keyframes flow {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.5; }
+        }
+        
+        .logo-base:hover .block:not(.empty) {
+            animation: flow 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>FreeBusy Desktop Logo</h1>
+        <h2>Concept 2: Flowing Time Blocks - 5 Variations</h2>
+        <p>Exploring different flow patterns and color schemes while maintaining the core "availability river" concept.</p>
+    </div>
+
+    <div class="variations-grid">
+        <!-- Variation A: Original Diagonal Flow -->
+        <div class="variation-card">
+            <div class="variation-title">Variation A: Diagonal River Flow</div>
+            <div class="variation-description">Original concept with teal gradient flowing diagonally from top-left to bottom-right, creating a clear "river of availability" through the grid.</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-flowing logo-variation-a">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-flowing logo-variation-a">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-flowing logo-variation-a">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-flowing logo-variation-a">
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Variation B: Vertical River Flow -->
+        <div class="variation-card">
+            <div class="variation-title">Variation B: Vertical River Flow</div>
+            <div class="variation-description">Blue gradient flowing vertically down the center columns, suggesting time flowing downward like a timeline or schedule.</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-flowing logo-variation-b">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-flowing logo-variation-b">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-flowing logo-variation-b">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-flowing logo-variation-b">
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Variation C: S-Curve Flow -->
+        <div class="variation-card">
+            <div class="variation-title">Variation C: S-Curve Flow</div>
+            <div class="variation-description">Purple gradient following an S-curve pattern, creating dynamic movement and visual interest while maintaining flow metaphor.</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-flowing logo-variation-c">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-flowing logo-variation-c">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-flowing logo-variation-c">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-flowing logo-variation-c">
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Variation D: Center Outward Flow -->
+        <div class="variation-card">
+            <div class="variation-title">Variation D: Center Outward Flow</div>
+            <div class="variation-description">Red gradient radiating from center blocks outward, suggesting availability spreading from a central point or core schedule.</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-flowing logo-variation-d">
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-flowing logo-variation-d">
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-flowing logo-variation-d">
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-flowing logo-variation-d">
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Variation E: Dual Stream Flow -->
+        <div class="variation-card">
+            <div class="variation-title">Variation E: Dual Stream Flow</div>
+            <div class="variation-description">Two different colored streams (teal and blue) flowing in parallel, representing multiple calendars or different types of availability.</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-flowing logo-variation-e">
+                            <div class="block stream-1"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-2"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-1"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-2"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-1"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-flowing logo-variation-e">
+                            <div class="block stream-1"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-2"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-1"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-2"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-1"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-flowing logo-variation-e">
+                            <div class="block stream-1"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-2"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-1"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-2"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-1"></div>
+                            <div class="block empty"></div>
+                            <div class="block stream-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-flowing logo-variation-e">
+                        <div class="block stream-1"></div>
+                        <div class="block empty"></div>
+                        <div class="block stream-2"></div>
+                        <div class="block empty"></div>
+                        <div class="block stream-1"></div>
+                        <div class="block empty"></div>
+                        <div class="block stream-2"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block stream-1"></div>
+                        <div class="block empty"></div>
+                        <div class="block stream-2"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

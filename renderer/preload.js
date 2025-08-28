@@ -10,6 +10,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     logout: () => ipcRenderer.invoke('auth:logout')
   },
   
+  // Credentials API
+  credentials: {
+    hasValid: () => ipcRenderer.invoke('credentials:has-valid'),
+    uploadFile: () => ipcRenderer.invoke('credentials:upload-file')
+  },
+  
   // Settings API
   settings: {
     get: () => ipcRenderer.invoke('settings:get'),
@@ -51,7 +57,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
       'availability-generated',
       'auth-status-changed',
       'error-occurred',
-      'open-settings'
+      'open-settings',
+      'credentials-updated'
     ];
     
     if (validChannels.includes(channel)) {

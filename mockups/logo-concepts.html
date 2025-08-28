@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBusy Desktop - Logo Concept Mockups</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: #f5f6fa;
+            color: #333;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #2c3e50;
+        }
+        
+        .header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .concept-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .concept-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #2c3e50;
+        }
+        
+        .logo-sizes {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-bottom: 32px;
+            padding: 24px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .logo-size {
+            text-align: center;
+        }
+        
+        .logo-size-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        /* Logo Base Styles */
+        .logo-base {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .logo-64 { width: 64px; height: 64px; }
+        .logo-32 { width: 32px; height: 32px; }
+        .logo-16 { width: 16px; height: 16px; }
+        
+        .wordmark {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 500;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        
+        /* Concept 1: Asymmetric Availability Grid */
+        .logo-concept-1 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-concept-1 .block {
+            border-radius: 4px;
+            background: #34495e;
+        }
+        
+        .logo-concept-1 .block.empty {
+            background: transparent;
+            border: 1px solid #ecf0f1;
+        }
+        
+        /* Concept 2: Flowing Time Blocks */
+        .logo-concept-2 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 1px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-concept-2 .block {
+            border-radius: 3px;
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+        }
+        
+        .logo-concept-2 .block.empty {
+            background: #ecf0f1;
+        }
+        
+        /* Concept 3: Pulse Pattern Grid */
+        .logo-concept-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-concept-3 .block {
+            border-radius: 4px;
+            background: #bdc3c7;
+        }
+        
+        .logo-concept-3 .block.center {
+            background: #1abc9c;
+            box-shadow: 0 0 8px rgba(26, 188, 156, 0.4);
+        }
+        
+        .logo-concept-3 .block.pulse {
+            background: rgba(26, 188, 156, 0.6);
+        }
+        
+        /* Concept 4: Minimalist Dot Matrix */
+        .logo-concept-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-concept-4 .dot {
+            border-radius: 50%;
+            background: #27ae60;
+        }
+        
+        .logo-concept-4 .dot.empty {
+            background: transparent;
+            border: 1px solid #bdc3c7;
+        }
+        
+        /* Concept 5: Layered Time Sheets */
+        .logo-concept-5 {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-concept-5 .layer {
+            position: absolute;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            width: 80%;
+            height: 80%;
+        }
+        
+        .logo-concept-5 .layer:nth-child(1) {
+            top: 0; left: 0;
+            opacity: 0.4;
+        }
+        
+        .logo-concept-5 .layer:nth-child(2) {
+            top: 10%; left: 10%;
+            opacity: 0.7;
+        }
+        
+        .logo-concept-5 .layer:nth-child(3) {
+            top: 20%; left: 20%;
+            opacity: 1;
+        }
+        
+        .logo-concept-5 .block {
+            border-radius: 2px;
+            background: #3498db;
+        }
+        
+        .logo-concept-5 .block.empty {
+            background: transparent;
+        }
+        
+        /* Concept 6: Modular Block System */
+        .logo-concept-6 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 2px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-concept-6 .block {
+            border-radius: 6px;
+            background: #2c3e50;
+            position: relative;
+        }
+        
+        .logo-concept-6 .block.connected::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 2px;
+            background: #1abc9c;
+        }
+        
+        .logo-concept-6 .block.empty {
+            background: #ecf0f1;
+        }
+        
+        /* Concept 7: Radial Availability */
+        .logo-concept-7 {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 50%;
+            background: #ecf0f1;
+        }
+        
+        .logo-concept-7 .segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            background: #e74c3c;
+        }
+        
+        .logo-concept-7 .segment:nth-child(1) { transform: rotate(0deg); background: #1abc9c; }
+        .logo-concept-7 .segment:nth-child(2) { transform: rotate(45deg); background: #ecf0f1; }
+        .logo-concept-7 .segment:nth-child(3) { transform: rotate(90deg); background: #1abc9c; }
+        .logo-concept-7 .segment:nth-child(4) { transform: rotate(135deg); background: #ecf0f1; }
+        .logo-concept-7 .segment:nth-child(5) { transform: rotate(180deg); background: #1abc9c; }
+        .logo-concept-7 .segment:nth-child(6) { transform: rotate(225deg); background: #1abc9c; }
+        .logo-concept-7 .segment:nth-child(7) { transform: rotate(270deg); background: #ecf0f1; }
+        .logo-concept-7 .segment:nth-child(8) { transform: rotate(315deg); background: #1abc9c; }
+        
+        /* Concept 8: Tetris-Inspired Blocks */
+        .logo-concept-8 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 1px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-concept-8 .tetris-block {
+            background: #9b59b6;
+            border-radius: 2px;
+        }
+        
+        .logo-concept-8 .tetris-block.type-2 {
+            background: #3498db;
+        }
+        
+        .logo-concept-8 .tetris-block.empty {
+            background: #ecf0f1;
+        }
+        
+        /* Concept 9: Binary Rhythm Grid */
+        .logo-concept-9 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 2px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-concept-9 .bit {
+            border-radius: 3px;
+            background: #34495e;
+        }
+        
+        .logo-concept-9 .bit.empty {
+            background: #ecf0f1;
+        }
+        
+        /* Concept 10: Floating Element Grid */
+        .logo-concept-10 {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo-concept-10 .floating-block {
+            position: absolute;
+            background: #e67e22;
+            border-radius: 4px;
+            width: 20%;
+            height: 20%;
+        }
+        
+        .logo-concept-10 .floating-block:nth-child(1) { top: 10%; left: 10%; }
+        .logo-concept-10 .floating-block:nth-child(2) { top: 10%; left: 40%; }
+        .logo-concept-10 .floating-block:nth-child(3) { top: 40%; left: 70%; background: #ecf0f1; }
+        .logo-concept-10 .floating-block:nth-child(4) { top: 70%; left: 20%; }
+        .logo-concept-10 .floating-block:nth-child(5) { top: 70%; left: 50%; background: #ecf0f1; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .concepts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-sizes {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>FreeBusy Desktop Logo Concepts</h1>
+        <p>10 distinct approaches to the time blocks / grid abstraction concept. Each design works as app icon, favicon, and wordmark combination.</p>
+    </div>
+
+    <div class="concepts-grid">
+        <!-- Concept 1: Asymmetric Availability Grid -->
+        <div class="concept-card">
+            <div class="concept-title">1. Asymmetric Availability Grid</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-1">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-1">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-1">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-1">
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Concept 2: Flowing Time Blocks -->
+        <div class="concept-card">
+            <div class="concept-title">2. Flowing Time Blocks</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-2">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-2">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-2">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-2">
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Concept 3: Pulse Pattern Grid -->
+        <div class="concept-card">
+            <div class="concept-title">3. Pulse Pattern Grid</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-3">
+                            <div class="block pulse"></div>
+                            <div class="block"></div>
+                            <div class="block pulse"></div>
+                            <div class="block"></div>
+                            <div class="block center"></div>
+                            <div class="block"></div>
+                            <div class="block pulse"></div>
+                            <div class="block"></div>
+                            <div class="block pulse"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-3">
+                            <div class="block pulse"></div>
+                            <div class="block"></div>
+                            <div class="block pulse"></div>
+                            <div class="block"></div>
+                            <div class="block center"></div>
+                            <div class="block"></div>
+                            <div class="block pulse"></div>
+                            <div class="block"></div>
+                            <div class="block pulse"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-3">
+                            <div class="block pulse"></div>
+                            <div class="block"></div>
+                            <div class="block pulse"></div>
+                            <div class="block"></div>
+                            <div class="block center"></div>
+                            <div class="block"></div>
+                            <div class="block pulse"></div>
+                            <div class="block"></div>
+                            <div class="block pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-3">
+                        <div class="block pulse"></div>
+                        <div class="block"></div>
+                        <div class="block pulse"></div>
+                        <div class="block"></div>
+                        <div class="block center"></div>
+                        <div class="block"></div>
+                        <div class="block pulse"></div>
+                        <div class="block"></div>
+                        <div class="block pulse"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Concept 4: Minimalist Dot Matrix -->
+        <div class="concept-card">
+            <div class="concept-title">4. Minimalist Dot Matrix</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-4">
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-4">
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-4">
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                            <div class="dot empty"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-4">
+                        <div class="dot"></div>
+                        <div class="dot empty"></div>
+                        <div class="dot"></div>
+                        <div class="dot empty"></div>
+                        <div class="dot empty"></div>
+                        <div class="dot"></div>
+                        <div class="dot empty"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot empty"></div>
+                        <div class="dot"></div>
+                        <div class="dot empty"></div>
+                        <div class="dot empty"></div>
+                        <div class="dot"></div>
+                        <div class="dot empty"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Concept 5: Layered Time Sheets -->
+        <div class="concept-card">
+            <div class="concept-title">5. Layered Time Sheets</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-5">
+                            <div class="layer">
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                            </div>
+                            <div class="layer">
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                            </div>
+                            <div class="layer">
+                                <div class="block"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-5">
+                            <div class="layer">
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                            </div>
+                            <div class="layer">
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                            </div>
+                            <div class="layer">
+                                <div class="block"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-5">
+                            <div class="layer">
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                            </div>
+                            <div class="layer">
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                            </div>
+                            <div class="layer">
+                                <div class="block"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                                <div class="block"></div>
+                                <div class="block empty"></div>
+                                <div class="block empty"></div>
+                                <div class="block"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-5">
+                        <div class="layer">
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                        </div>
+                        <div class="layer">
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                        </div>
+                        <div class="layer">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                        </div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Concept 6: Modular Block System -->
+        <div class="concept-card">
+            <div class="concept-title">6. Modular Block System</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-6">
+                            <div class="block connected"></div>
+                            <div class="block connected"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block connected"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-6">
+                            <div class="block connected"></div>
+                            <div class="block connected"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block connected"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-6">
+                            <div class="block connected"></div>
+                            <div class="block connected"></div>
+                            <div class="block empty"></div>
+                            <div class="block"></div>
+                            <div class="block empty"></div>
+                            <div class="block connected"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-6">
+                        <div class="block connected"></div>
+                        <div class="block connected"></div>
+                        <div class="block empty"></div>
+                        <div class="block"></div>
+                        <div class="block empty"></div>
+                        <div class="block connected"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Concept 7: Radial Availability -->
+        <div class="concept-card">
+            <div class="concept-title">7. Radial Availability</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-7">
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-7">
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-7">
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                            <div class="segment"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-7">
+                        <div class="segment"></div>
+                        <div class="segment"></div>
+                        <div class="segment"></div>
+                        <div class="segment"></div>
+                        <div class="segment"></div>
+                        <div class="segment"></div>
+                        <div class="segment"></div>
+                        <div class="segment"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Concept 8: Tetris-Inspired Blocks -->
+        <div class="concept-card">
+            <div class="concept-title">8. Tetris-Inspired Blocks</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-8">
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-8">
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block empty"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-8">
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block type-2"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block"></div>
+                            <div class="tetris-block empty"></div>
+                            <div class="tetris-block empty"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-8">
+                        <div class="tetris-block"></div>
+                        <div class="tetris-block"></div>
+                        <div class="tetris-block empty"></div>
+                        <div class="tetris-block type-2"></div>
+                        <div class="tetris-block"></div>
+                        <div class="tetris-block empty"></div>
+                        <div class="tetris-block empty"></div>
+                        <div class="tetris-block type-2"></div>
+                        <div class="tetris-block empty"></div>
+                        <div class="tetris-block empty"></div>
+                        <div class="tetris-block type-2"></div>
+                        <div class="tetris-block type-2"></div>
+                        <div class="tetris-block"></div>
+                        <div class="tetris-block"></div>
+                        <div class="tetris-block empty"></div>
+                        <div class="tetris-block empty"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Concept 9: Binary Rhythm Grid -->
+        <div class="concept-card">
+            <div class="concept-title">9. Binary Rhythm Grid</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-9">
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-9">
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-9">
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                            <div class="bit"></div>
+                            <div class="bit empty"></div>
+                            <div class="bit"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-9">
+                        <div class="bit"></div>
+                        <div class="bit empty"></div>
+                        <div class="bit"></div>
+                        <div class="bit empty"></div>
+                        <div class="bit"></div>
+                        <div class="bit empty"></div>
+                        <div class="bit"></div>
+                        <div class="bit"></div>
+                        <div class="bit empty"></div>
+                        <div class="bit"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+
+        <!-- Concept 10: Floating Element Grid -->
+        <div class="concept-card">
+            <div class="concept-title">10. Floating Element Grid</div>
+            <div class="logo-sizes">
+                <div class="logo-size">
+                    <div class="logo-size-label">App Icon (64px)</div>
+                    <div class="logo-base logo-64">
+                        <div class="logo-concept-10">
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Menu Bar (32px)</div>
+                    <div class="logo-base logo-32">
+                        <div class="logo-concept-10">
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-size">
+                    <div class="logo-size-label">Favicon (16px)</div>
+                    <div class="logo-base logo-16">
+                        <div class="logo-concept-10">
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                            <div class="floating-block"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wordmark">
+                <div class="logo-base logo-32">
+                    <div class="logo-concept-10">
+                        <div class="floating-block"></div>
+                        <div class="floating-block"></div>
+                        <div class="floating-block"></div>
+                        <div class="floating-block"></div>
+                        <div class="floating-block"></div>
+                    </div>
+                </div>
+                <span>freebusypaste</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

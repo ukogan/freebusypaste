@@ -1,7 +1,8 @@
 const { google } = require('googleapis');
-const { shell } = require('electron');
+const { shell, app } = require('electron');
 const keytar = require('keytar');
 const path = require('path');
+const fs = require('fs');
 const OAuthServer = require('./oauth-server');
 
 class OAuthManagerV2 {
@@ -17,32 +18,105 @@ class OAuthManagerV2 {
   
   loadCredentials() {
     try {
-      const credentialsPath = path.join(__dirname, '../../credentials.json');
-      const fs = require('fs');
+      // First try user data directory (uploaded credentials)
+      const userDataPath = this.getUserCredentialsPath();
       
-      if (fs.existsSync(credentialsPath)) {
-        const credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'));
-        const { client_id, client_secret } = credentials.installed;
-        
-        this.config = {
-          clientId: client_id,
-          clientSecret: client_secret,
-          redirectUri: 'http://localhost:8080/oauth/callback', // Will be updated when server starts
-          scopes: [
-            'https://www.googleapis.com/auth/calendar.readonly'
-          ]
-        };
-        
-        this.hasValidCredentials = true;
-        console.log('✅ Google OAuth credentials loaded from credentials.json');
-        
+      // Then try project root (development)
+      const projectCredentialsPath = path.join(__dirname, '../../credentials.json');
+      
+      let credentialsPath;
+      if (fs.existsSync(userDataPath)) {
+        credentialsPath = userDataPath;
+      } else if (fs.existsSync(projectCredentialsPath)) {
+        credentialsPath = projectCredentialsPath;
       } else {
-        console.warn('⚠️ credentials.json not found');
+        console.warn('⚠️ No credentials.json found in user data or project directory');
         this.hasValidCredentials = false;
+        return;
       }
+      
+      const credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'));
+      
+      // Validate credentials structure
+      if (!this.validateCredentials(credentials)) {
+        console.error('❌ Invalid credentials structure');
+        this.hasValidCredentials = false;
+        return;
+      }
+      
+      const { client_id, client_secret } = credentials.installed;
+      
+      this.config = {
+        clientId: client_id,
+        clientSecret: client_secret,
+        redirectUri: 'http://localhost:8080/oauth/callback', // Will be updated when server starts
+        scopes: [
+          'https://www.googleapis.com/auth/calendar.readonly'
+        ]
+      };
+      
+      this.hasValidCredentials = true;
+      console.log(`✅ Google OAuth credentials loaded from ${credentialsPath}`);
+      
     } catch (error) {
       console.error('Failed to load credentials:', error);
       this.hasValidCredentials = false;
+    }
+  }
+  
+  getUserCredentialsPath() {
+    const userDataDir = app.getPath('userData');
+    return path.join(userDataDir, 'credentials.json');
+  }
+  
+  validateCredentials(credentials) {
+    return (
+      credentials &&
+      credentials.installed &&
+      credentials.installed.client_id &&
+      credentials.installed.client_secret &&
+      credentials.installed.auth_uri &&
+      credentials.installed.token_uri
+    );
+  }
+  
+  async uploadCredentials(credentialsData) {
+    try {
+      // Validate the credentials structure
+      const credentials = JSON.parse(credentialsData);
+      
+      if (!this.validateCredentials(credentials)) {
+        throw new Error('Invalid credentials file format. Please ensure you downloaded the correct OAuth2 client credentials from Google Cloud Console.');
+      }
+      
+      // Save to user data directory
+      const userCredentialsPath = this.getUserCredentialsPath();
+      const userDataDir = path.dirname(userCredentialsPath);
+      
+      // Ensure directory exists
+      if (!fs.existsSync(userDataDir)) {
+        fs.mkdirSync(userDataDir, { recursive: true });
+      }
+      
+      fs.writeFileSync(userCredentialsPath, credentialsData, 'utf8');
+      
+      // Reload credentials
+      this.loadCredentials();
+      this.setupOAuthClient();
+      
+      if (this.hasValidCredentials) {
+        console.log('✅ Credentials uploaded and validated successfully');
+        return { success: true, message: 'Credentials uploaded successfully!' };
+      } else {
+        throw new Error('Failed to load uploaded credentials');
+      }
+      
+    } catch (error) {
+      console.error('Failed to upload credentials:', error);
+      return { 
+        success: false, 
+        error: error.message || 'Failed to upload credentials' 
+      };
     }
   }
   

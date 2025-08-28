@@ -14,7 +14,9 @@
     "test:watch": "jest --config jest.config.js --watch",
     "lint": "eslint main/ renderer/",
     "lint:fix": "eslint main/ renderer/ --fix",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "dist": "npm run build"
   },
   "keywords": [
     "calendar",
@@ -27,16 +29,42 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "electron": "^37.3.1",
     "electron-store": "^10.1.0",
     "googleapis": "^158.0.0",
     "keytar": "^7.9.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
+    "electron": "^37.3.1",
     "electron-builder": "^26.0.12",
     "electron-reload": "^2.0.0-alpha.1",
     "eslint": "^9.34.0",
     "jest": "^30.1.0"
+  },
+  "build": {
+    "appId": "com.freebusy.desktop",
+    "productName": "FreeBusy Desktop",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "FreeBusy.icns",
+      "identity": null,
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ]
+    },
+    "files": [
+      "main/**/*",
+      "renderer/**/*",
+      "node_modules/**/*",
+      "package.json",
+      "FreeBusy.icns",
+      "README.md"
+    ]
   }
 }

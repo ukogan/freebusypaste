@@ -18,6 +18,8 @@ class FreeBusyMainWindow {
       await this.showFirstRunOnboarding();
     }
     
+    // Check for credentials before auth
+    await this.checkCredentials();
     await this.checkAuthStatus();
     await this.loadSettings();
     this.updateUI();
@@ -83,6 +85,12 @@ class FreeBusyMainWindow {
       // Listen for settings open request
       window.electronAPI.on('open-settings', () => {
         this.openSettings();
+      });
+      
+      // Listen for credentials update
+      window.electronAPI.on('credentials-updated', () => {
+        this.checkCredentials();
+        this.updateUI();
       });
     }
   }
@@ -170,6 +178,18 @@ class FreeBusyMainWindow {
     }
   }
   
+  async checkCredentials() {
+    try {
+      this.hasValidCredentials = await window.electronAPI.credentials.hasValid();
+      if (!this.hasValidCredentials && !this.isDemoMode) {
+        console.warn('⚠️ No valid Google credentials found');
+      }
+    } catch (error) {
+      console.error('Failed to check credentials:', error);
+      this.hasValidCredentials = false;
+    }
+  }
+
   async checkAuthStatus() {
     try {
       this.isAuthenticated = await window.electronAPI.auth.checkStatus();
@@ -189,6 +209,12 @@ class FreeBusyMainWindow {
   }
   
   async login() {
+    // Check if credentials are needed first
+    if (!this.hasValidCredentials && !this.isDemoMode) {
+      this.showCredentialsSetup();
+      return;
+    }
+    
     const loginBtn = document.getElementById('loginBtn');
     const originalText = loginBtn.textContent;
     
@@ -202,6 +228,8 @@ class FreeBusyMainWindow {
         this.isAuthenticated = true;
         this.updateUI();
         this.showSuccess('Connected to Google Calendar successfully!');
+      } else if (result.requiresCredentials) {
+        this.showCredentialsSetup();
       } else {
         throw new Error(result.error || 'Authentication failed');
       }
@@ -214,6 +242,88 @@ class FreeBusyMainWindow {
       loginBtn.textContent = originalText;
       loginBtn.disabled = false;
     }
+  }
+
+  showCredentialsSetup() {
+    const authSection = document.getElementById('authSection');
+    authSection.innerHTML = `
+      <div class="auth-content">
+        <div class="auth-icon">📄</div>
+        <h2>Google Calendar Setup Required</h2>
+        <p>To connect to Google Calendar, you need to upload your OAuth2 credentials file.</p>
+        <div style="text-align: left; max-width: 400px; margin: 20px auto; background: #f8f9fa; padding: 16px; border-radius: 8px;">
+          <h4 style="margin: 0 0 12px 0; color: #333;">Quick Setup:</h4>
+          <ol style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.5;">
+            <li>Visit <a href="#" onclick="window.electronAPI.openExternal('https://console.cloud.google.com')" style="color: #0066cc;">Google Cloud Console</a></li>
+            <li>Create a project & enable Calendar API</li>
+            <li>Create OAuth2 credentials (Desktop app)</li>
+            <li>Download the JSON file</li>
+            <li>Click "Upload Credentials" below</li>
+          </ol>
+        </div>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+          <button class="btn-primary" id="uploadCredentialsBtn">
+            📄 Upload Credentials File
+          </button>
+          <button class="btn-secondary" id="viewInstructionsBtn">
+            📖 View Full Instructions
+          </button>
+        </div>
+      </div>
+    `;
+    
+    document.getElementById('uploadCredentialsBtn').addEventListener('click', () => this.uploadCredentials());
+    document.getElementById('viewInstructionsBtn').addEventListener('click', () => this.showDetailedInstructions());
+  }
+
+  async uploadCredentials() {
+    const uploadBtn = document.getElementById('uploadCredentialsBtn');
+    const originalText = uploadBtn.textContent;
+    
+    try {
+      uploadBtn.textContent = 'Uploading...';
+      uploadBtn.disabled = true;
+      
+      const result = await window.electronAPI.credentials.uploadFile();
+      
+      if (result.success) {
+        this.hasValidCredentials = true;
+        this.showSuccess('Credentials uploaded successfully! You can now connect to Google Calendar.');
+        // Refresh the auth section
+        setTimeout(() => {
+          this.updateUI();
+        }, 2000);
+      } else {
+        if (result.error !== 'Upload cancelled') {
+          this.showError('Upload Failed', result.error);
+        }
+      }
+      
+    } catch (error) {
+      console.error('Upload failed:', error);
+      this.showError('Upload Failed', error.message);
+      
+    } finally {
+      uploadBtn.textContent = originalText;
+      uploadBtn.disabled = false;
+    }
+  }
+
+  showDetailedInstructions() {
+    this.showError('Setup Instructions', `
+      <div style="text-align: left;">
+        <h4>Complete Setup Guide:</h4>
+        <p>1. Go to <a href="#" onclick="window.electronAPI.openExternal('https://console.cloud.google.com')" style="color: #0066cc;">Google Cloud Console</a></p>
+        <p>2. Create a new project or select existing one</p>
+        <p>3. Enable the Google Calendar API</p>
+        <p>4. Go to Credentials → Create OAuth2 Client ID</p>
+        <p>5. Choose "Desktop Application" type</p>
+        <p>6. Download the JSON credentials file</p>
+        <p>7. Return here and click "Upload Credentials File"</p>
+        <br>
+        <p><small>Need help? Check the README file in the app folder for detailed screenshots.</small></p>
+      </div>
+    `);
   }
   
   async generateAvailability() {
@@ -557,7 +667,50 @@ class FreeBusyMainWindow {
       return;
     }
     
-    if (this.isAuthenticated) {
+    // In demo mode, skip credential checks
+    if (this.isDemoMode) {
+      if (this.isAuthenticated) {
+        authSection.style.display = 'none';
+        generationSection.style.display = 'flex';
+        authStatus.textContent = 'Connected to Google Calendar (Demo)';
+      } else {
+        authSection.style.display = 'flex';
+        generationSection.style.display = 'none';
+        authStatus.textContent = 'Not connected (Demo)';
+        // Show normal login UI for demo
+        authSection.innerHTML = `
+          <div class="auth-content">
+            <div class="auth-icon">🔐</div>
+            <h2>Connect to Google Calendar</h2>
+            <p>Sign in with Google to access your calendar availability</p>
+            <button class="btn-primary" id="loginBtn">
+              Connect Google Calendar
+            </button>
+          </div>
+        `;
+        document.getElementById('loginBtn').addEventListener('click', () => this.login());
+      }
+      return;
+    }
+    
+    // Regular mode: check credentials first
+    if (!this.hasValidCredentials) {
+      authSection.style.display = 'flex';
+      generationSection.style.display = 'none';
+      authStatus.textContent = 'Setup required';
+      // showCredentialsSetup will be called when user clicks login
+      authSection.innerHTML = `
+        <div class="auth-content">
+          <div class="auth-icon">⚙️</div>
+          <h2>Setup Required</h2>
+          <p>Upload your Google OAuth2 credentials to get started</p>
+          <button class="btn-primary" id="loginBtn">
+            📄 Setup Google Calendar
+          </button>
+        </div>
+      `;
+      document.getElementById('loginBtn').addEventListener('click', () => this.login());
+    } else if (this.isAuthenticated) {
       authSection.style.display = 'none';
       generationSection.style.display = 'flex';
       authStatus.textContent = 'Connected to Google Calendar';
@@ -565,6 +718,18 @@ class FreeBusyMainWindow {
       authSection.style.display = 'flex';
       generationSection.style.display = 'none';
       authStatus.textContent = 'Not connected';
+      // Show normal login UI when credentials are available
+      authSection.innerHTML = `
+        <div class="auth-content">
+          <div class="auth-icon">🔐</div>
+          <h2>Connect to Google Calendar</h2>
+          <p>Sign in with Google to access your calendar availability</p>
+          <button class="btn-primary" id="loginBtn">
+            Connect Google Calendar
+          </button>
+        </div>
+      `;
+      document.getElementById('loginBtn').addEventListener('click', () => this.login());
     }
   }
   
