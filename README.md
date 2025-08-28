@@ -1,30 +1,36 @@
 # FreeBusy Desktop
 
-A macOS desktop app for instantly generating and sharing your calendar availability. Connect to Google Calendar, select your meeting preferences, and copy formatted availability tables to share via email or messaging.
+A native macOS desktop app for instantly generating and sharing your calendar availability. Connect to Google Calendar, select your meeting preferences with intuitive gradient buttons, and copy beautifully formatted availability tables to share via email or messaging.
 
-## Features
+## ✨ Features
 
-- 🗓️ **Google Calendar Integration** - Securely connects to your calendar
+- 🗓️ **Google Calendar Integration** - Secure OAuth2 connection with guided setup
 - ⚡ **Instant Generation** - Creates availability tables in seconds
 - 📧 **Email-Ready Format** - Copies HTML tables that paste perfectly into emails
-- 🎛️ **Flexible Options** - Choose meeting length (15, 30, 45, 60 min) and date range (2-7 days)
-- 🖥️ **Native macOS App** - Runs locally, your data stays private
+- 🎛️ **Interactive Options** - Gradient button interface for meeting length (15-60 min) and date range (2-7 days)
+- 🖥️ **Native macOS App** - Professional app icon, menu bar integration, runs locally
+- 🔒 **Privacy First** - Your data stays private, read-only calendar access
+- 🚀 **Zero Config** - In-app credential upload, no technical setup required
 
-## Installation
+## 📦 Installation
 
-### Option 1: Download Release
-1. Download the latest `FreeBusy Desktop.dmg` from releases
-2. Open the DMG file
-3. Drag "FreeBusy Desktop" to your Applications folder
-4. First run: Right-click the app → "Open" (to bypass macOS security)
+### Download Release (Recommended)
+1. Go to [Releases](https://github.com/ukogan/freebusypaste/releases) and download:
+   - **Apple Silicon Macs** (M1/M2/M3/M4): `FreeBusy Desktop-arm64.dmg`
+   - **Intel Macs** (2019 and earlier): `FreeBusy Desktop.dmg`
+2. Open the DMG file and drag "FreeBusy Desktop" to Applications
+3. **First launch**: Right-click app → "Open" (bypasses macOS security warning)
+4. Follow the in-app Google Calendar setup guide
 
-### Option 2: Build from Source
+### Build from Source
 ```bash
-git clone https://github.com/yourname/freebusypaste.git
+git clone https://github.com/ukogan/freebusypaste.git
 cd freebusypaste
 npm install
 npm run build:mac
 ```
+
+**System Requirements**: macOS 10.15+ (Catalina or later)
 
 ## Setup: Google Calendar API
 
@@ -72,12 +78,15 @@ To use FreeBusy Desktop, you need to set up Google Calendar API access:
    - **Built app**: Right-click FreeBusy Desktop.app → "Show Package Contents" → Contents → Resources → credentials.json
    - **Development**: Place in project root as `credentials.json`
 
-## Usage
+## 🎯 Usage
 
-1. **Connect**: First run will prompt for Google authentication
-2. **Customize**: Select meeting length and date range with the option buttons
-3. **Generate**: Click "Find my availability" 
-4. **Share**: Click "Copy to clipboard" and paste into your email
+1. **Setup**: Upload your Google OAuth2 credentials (guided in-app process)
+2. **Connect**: Authenticate with Google Calendar (one-time setup)
+3. **Customize**: Select meeting length and date range using gradient option buttons
+4. **Generate**: Click "🔍 Find my availability" 
+5. **Share**: Click "📋 Copy to clipboard" and paste into emails/messages
+
+**Pro Tip**: The gradient buttons provide visual guidance - lighter colors represent shorter durations/fewer days, darker colors represent longer options.
 
 ## Troubleshooting
 
@@ -120,19 +129,30 @@ Having issues? Check:
 2. [GitHub Issues](https://github.com/yourname/freebusypaste/issues)
 3. Ensure you've followed the Google API setup steps exactly
 
-## Development
+## 🛠️ Development
 
+### Commands
 ```bash
-# Development mode
-npm start
-
-# Run tests
-npm test
-
-# Build for distribution
-npm run build:mac
+npm start           # Development mode
+npm run demo       # Demo mode (no Google credentials needed)
+npm test           # Run all tests
+npm run lint       # Code linting
+npm run build:mac  # Build for macOS distribution
 ```
 
-## License
+### Project Status
+- **Version**: 1.0.0
+- **Status**: ✅ Production Ready
+- **Platform**: macOS (Intel + Apple Silicon)
+- **Architecture**: Electron + Node.js
 
-MIT License - see LICENSE file for details.
+### Contributing
+See [ROADMAP.md](./ROADMAP.md) for planned features and enhancement opportunities.
+
+## 📄 License
+
+MIT License - see [LICENSE](./LICENSE) file for details.
+
+---
+
+**Built with ❤️ using Claude Code** • [Report Issues](https://github.com/ukogan/freebusypaste/issues) • [View Releases](https://github.com/ukogan/freebusypaste/releases)

@@ -1,7 +1,7 @@
 {
   "name": "freebusy-desktop",
-  "version": "0.1.0",
-  "description": "macOS desktop app for instant calendar availability sharing",
+  "version": "1.0.0",
+  "description": "Native macOS app for instantly generating and sharing Google Calendar availability with guided setup",
   "main": "main/app.js",
   "scripts": {
     "dev": "electron-reload . && electron main/app.js",
